@@ -1,6 +1,7 @@
 import "./Homepage.css";
 import { Carousel, OverlayTrigger, Tooltip } from "react-bootstrap";
 import Footer from "./Footer";
+import Emicalculator from "./Emicalculator";
 
 function Homepage()
 {
@@ -108,7 +109,6 @@ function Homepage()
                 
             </div>
             {/* Second Section end */}
-            
             <Footer/>
         </>
     )

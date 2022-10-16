@@ -1,0 +1,18 @@
+.first-section-aboutus
+{
+    padding: 5%;
+    background-color: #454381;
+    color: #fff;
+}
+
+.second-section-aboutus
+{
+    padding: 5%;
+}
+
+.second-section-aboutus .box
+{
+    
+    background-color: #7c277c;
+    color: #fff;
+}

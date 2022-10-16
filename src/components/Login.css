@@ -1,6 +1,59 @@
-.login-page
+
+.name-head
 {
-    background-color: purple;
-    background-size: cover;
-    background-attachment: fixed;
+    color: #d54d7b; 
+    font-family:  cursive; 
+    font-size: 2rem; 
+    font-weight: bold; 
+    margin-bottom: 0px; 
+    margin-top: 2rem; 
+    text-align: center; 
+    text-shadow: 0 1px 1px #fff;
+}
+
+.subtext
+{
+    font-style: normal; 
+    color: #777777; 
+    font-family: "Great Vibes", cursive;
+    font-size: 1.4rem; 
+    margin-top: 2px; 
+    text-align: right; 
+    margin-right: 10%;
+    text-shadow: 0 1px 1px #fff;
+}
+
+.right-part-section::after
+{
+    content: "";
+    background-color: #999;
+    position: absolute;
+    width: 3px;
+    height: 80%;
+    top: 10%;
+    left: 50%;
+    display: block;
+}
+
+    
+@media (min-width: 768px) 
+{
+    .gradient-form 
+    {
+        height: 100vh !important;
+    }
+}
+
+@media (max-width: 993px)
+{
+    .right-part-section
+    {
+        border-top: 1px solid #999;
+        border-left: none;
+    }
+
+    .right-part-section::after
+    {
+        display: none;
+    }
 }

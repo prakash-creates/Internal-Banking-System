@@ -1,0 +1,55 @@
+/*Part that handles the title part of tabs .... Start*/
+
+#loans-tab-personalloan, #loans-tab-homeloan, #loans-tab-educationloan /* To affect the titles of the tabs, when inactive */
+{
+    color: black;
+    background-color: #6495ed;
+    margin: 2px auto;
+    border: 1px solid #999;
+    font-size: 1.6em;
+    font-weight: 700;
+    font-family: cursive;
+}
+
+#loans-tab-personalloan:hover, #loans-tab-educationloan:hover, #loans-tab-homeloan:hover /* To affect the title part of the tabs, when hovered */
+{
+    background-color: #7fffd4;
+}
+
+/* Below three targets the title part of the tabs, which are being displayed */
+
+#loans-tab-personalloan.active
+{
+    background-color: darksalmon;
+}
+
+#loans-tab-homeloan.active
+{
+    background-color: darksalmon;
+}
+
+#loans-tab-educationloan.active
+{
+    background-color: darksalmon;
+}
+
+/*Part that handles the title part of tabs .... Ends*/
+
+.outer-main-part
+{
+    padding-top: 2em;
+    padding-bottom: 2em;
+    position: relative;
+    width: 100%;
+    background-color: #be998f;
+}
+
+.applyloan
+{
+    width: 70%;
+    margin-left: 15%;
+    background: rgb(118,164,153);
+    background: linear-gradient(130deg, rgba(118,164,153,1) 0%, rgba(156,242,236,1) 100%);
+    border: 3px solid #000;
+    border-radius: 5px;
+}
