@@ -6,8 +6,14 @@ import Login from './components/Login';
 import Applyloan from './components/Applyloan';
 import Aboutus from './components/Aboutus';
 import Viewloan from './components/Viewloan';
+import axios from 'axios';
 
-function App() {
+export default function App() {
+
+    axios.defaults.headers.common[
+      "Authorization"
+    ] = `${localStorage.token}` ;
+
   return (
     <div className="App">
       <NavigationBar/>
@@ -22,4 +28,3 @@ function App() {
   );
 }
 
-export default App;

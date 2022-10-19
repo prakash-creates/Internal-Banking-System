@@ -19,7 +19,7 @@ function Login()
                 <li>Alphabets, numbers and underscore ( _ ) only.</li>
                 <li>Should start with alphabet only.</li>
                 <li>Cannot end with underscore ( _ ).</li>
-                <li>Minimum length = 6 characters</li>
+                <li>Minimum length = 5 characters</li>
             </ul>
         </Popover.Body>
         </Popover>
@@ -93,13 +93,13 @@ function Login()
 
                             <div className="form-outline mb-4">
                                 <FloatingLabel className="mb-3 row" controlId="formUsername" label="Enter Username">
-                                    <Form.Control type="text" placeholder="Enter username" {...register("username", {required: true, minLength: 6, pattern: /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/})} />
+                                    <Form.Control type="text" placeholder="Enter username" {...register("username", {required: true, minLength: 5, pattern: /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/})} />
                                     <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
                                         <Button variant="none" style={{"marginTop" : "0.5em"}}><FcInfo style={{"fontSize" : "1em"}}/>  <span className="text-muted" style={{"fontWeight" : "700", "fontSize" : "0.9em"}}>Username Pattern</span></Button>
                                     </OverlayTrigger>
                                     {errors.username?.type === "pattern" && (<p className="text-danger"><strong>Please use the valid format of username</strong></p>)}
                                     {errors.username?.type === "required" && (<p className="text-danger"><strong>Please enter your username</strong></p>)}
-                                    {errors.username?.type === "minLength" && (<p className="text-danger"><strong>Username should be minimum 6 characters long</strong></p>)}
+                                    {errors.username?.type === "minLength" && (<p className="text-danger"><strong>Username should be minimum 5 characters long</strong></p>)}
                                 </FloatingLabel>
                             </div>
 
