@@ -23,6 +23,7 @@ function NavigationBar()
                             <Link to="/" className='nav-link'><h5>Home</h5></Link>
                             <Link to="/login" className='nav-link'><h5>Login</h5></Link>
                             <Link to="/applyloan" className='nav-link'><h5>Apply Loan</h5></Link>
+                            <Link to="/viewloan" className='nav-link'><h5>View Loan Details</h5></Link>
                             <Link onClick={handleShow} className='nav-link'><h5>EMI Calculator</h5></Link>
                             <Link to="/aboutus" className='nav-link'><h5>About Us</h5></Link>
                         </Nav>

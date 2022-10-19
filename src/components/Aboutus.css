@@ -1,3 +1,31 @@
+.aboutus-container
+{
+    background-color: whitesmoke;
+    padding-top: 1.5em;
+}
+
+.aboutus-top
+{
+    background-color: #999;
+    padding: 1.5em;
+    width: 40%;
+    margin-bottom: 1.5em;
+    border-radius: 10%/20%;
+    margin-left : 30%; 
+    font-family: cursive;
+    font-weight: 700;
+    color: #fff;
+    text-shadow:
+        0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px #130613,
+        0 0 82px #130613,
+        0 0 92px #130613,
+        0 0 102px #130613,
+        0 0 151px #130613;
+}
+
 .first-section-aboutus
 {
     padding: 5%;
@@ -15,4 +43,34 @@
     
     background-color: #7c277c;
     color: #fff;
+    padding : 1.5em;
+}
+
+.detail-head
+{
+    font-family: cursive;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-decoration: underline;
+}
+
+.detail-body
+{
+    font-family: cursive;
+    font-size: 1.2em;
+}
+
+.detail-body span:hover
+{
+    color: #fff;
+    text-shadow:
+        0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px #982e98,
+        0 0 82px #982e98,
+        0 0 92px #982e98,
+        0 0 102px #982e98,
+        0 0 151px #982e98;
+
 }

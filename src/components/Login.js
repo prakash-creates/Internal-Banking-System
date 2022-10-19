@@ -1,9 +1,68 @@
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from 'react-redux' 
+import {useForm} from 'react-hook-form'
+import { FcInfo } from "react-icons/fc";
+import {Link, useNavigate} from 'react-router-dom'
+import { userLogin } from "../slices/userSlice";
 import './Login.css';
-import {FloatingLabel, Form, Button} from 'react-bootstrap';
+import {FloatingLabel, Form, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import Footer from './Footer';
 
 function Login()
 {
+
+    const popover = (
+        <Popover id="username-popover">
+        <Popover.Header as="h3">Username - Allowed patterns</Popover.Header>
+        <Popover.Body>
+            <ul>
+                <li>Alphabets, numbers and underscore ( _ ) only.</li>
+                <li>Should start with alphabet only.</li>
+                <li>Cannot end with underscore ( _ ).</li>
+                <li>Minimum length = 6 characters</li>
+            </ul>
+        </Popover.Body>
+        </Popover>
+    );
+
+    const popoverPass = (
+        <Popover id="password-popover">
+        <Popover.Header as="h3">Password - Allowed patterns</Popover.Header>
+        <Popover.Body>
+            <ul>
+                <li>Alphanumeric characters only.</li>
+                <li>At least 1 uppercase letter.</li>
+                <li>At least 1 lowercase letter.</li>
+                <li>At least 1 number.</li>
+                <li>Minimum length = 8 characters</li>
+                <li>Maximum length = 16 characters</li>
+            </ul>
+        </Popover.Body>
+        </Popover>
+    );
+
+    let { userObj, isSuccess, isError, errMsg } = useSelector(
+        (state) => state.data
+    );
+
+    const dispatch = useDispatch();
+        const navigate = useNavigate();
+        const {
+            register,
+            handleSubmit,
+            formState: { errors },
+        } = useForm();
+        const onFormSubmit = (userObj) => {
+            console.log(userObj);
+            dispatch(userLogin(userObj));
+        };
+
+        useEffect(() => {
+            if (isSuccess) {
+                navigate("/applyloan");
+            }
+        }, [isSuccess, userObj, navigate]);
+
     return(
         <>
             <section class="h-100 gradient-form" style={{"background" : "rgb(112,218,125)"}}>
@@ -28,18 +87,32 @@ function Login()
                         <div class="card-body p-md-5 mx-md-4">
 
                         <h3 style={{"marginBottom" : "1.3rem"}}>Sign In</h3>
-                            <Form autoComplete='off'>
-                            
+                            <Form autoComplete='off' onSubmit={handleSubmit(onFormSubmit)}>
 
-                            <div class="form-outline mb-4">
-                                <FloatingLabel className="mb-3" controlId="formUsername" label="Enter Username">
-                                    <Form.Control type="text" placeholder="Enter username"/>
+                            {isError && <p className="text-danger text-center h3">{errMsg}</p>}
+
+                            <div className="form-outline mb-4">
+                                <FloatingLabel className="mb-3 row" controlId="formUsername" label="Enter Username">
+                                    <Form.Control type="text" placeholder="Enter username" {...register("username", {required: true, minLength: 6, pattern: /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/})} />
+                                    <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
+                                        <Button variant="none" style={{"marginTop" : "0.5em"}}><FcInfo style={{"fontSize" : "1em"}}/>  <span className="text-muted" style={{"fontWeight" : "700", "fontSize" : "0.9em"}}>Username Pattern</span></Button>
+                                    </OverlayTrigger>
+                                    {errors.username?.type === "pattern" && (<p className="text-danger"><strong>Please use the valid format of username</strong></p>)}
+                                    {errors.username?.type === "required" && (<p className="text-danger"><strong>Please enter your username</strong></p>)}
+                                    {errors.username?.type === "minLength" && (<p className="text-danger"><strong>Username should be minimum 6 characters long</strong></p>)}
                                 </FloatingLabel>
                             </div>
 
-                            <div class="form-outline mb-4">
-                                <FloatingLabel className="mb-3" controlId="formPassword" label="Enter Password">
-                                    <Form.Control type="password" placeholder="Enter password"/>
+                            <div className="form-outline">
+                                <FloatingLabel className="mb-3 row" controlId="formPassword" label="Enter Password">
+                                    <Form.Control type="password" placeholder="Enter password" {...register("userpassword", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})} />
+                                    <OverlayTrigger trigger="click" placement="bottom" overlay={popoverPass}>
+                                        <Button variant="none" style={{"marginTop" : "0.5em"}}><FcInfo style={{"fontSize" : "1em"}}/>  <span className="text-muted" style={{"fontWeight" : "700", "fontSize" : "0.9em"}}>Allowed Password Pattern</span></Button>
+                                    </OverlayTrigger>
+                                    {errors.userpassword?.type === "pattern" && (<p className="text-danger"><strong>Please follow the pattern for password</strong></p>)}
+                                    {errors.userpassword?.type === "required" && (<p className="text-danger"><strong>Please enter your Password</strong></p>)}
+                                    {errors.userpassword?.type === "minLength" && (<p className="text-danger"><strong>Password should be minimum 8 characters long</strong></p>)}
+                                    {errors.userpassword?.type === "maxLength" && (<p className="text-danger"><strong>Password can be maximum 16 characters long</strong></p>)}
                                 </FloatingLabel>
                             </div>
 
@@ -50,7 +123,7 @@ function Login()
                     {/*
                             <div class="d-flex align-items-center justify-content-center pb-4">
                                 <p class="mb-0 me-2">Don't have an account?</p>
-                                <button type="button" class="btn btn-outline-danger">Create new</button>
+                                <button type="button" class="btn btn-outline-danger"><strong>Create new</button>
                             </div>
                     */}
 
