@@ -7,6 +7,7 @@ import Applyloan from './components/Applyloan';
 import Aboutus from './components/Aboutus';
 import Viewloan from './components/Viewloan';
 import axios from 'axios';
+import { Fragment } from 'react';
 
 export default function App() {
 
@@ -18,11 +19,19 @@ export default function App() {
     <div className="App">
       <NavigationBar/>
       <Routes>
-        <Route path='/' element={<Homepage/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/applyloan' element={<Applyloan/>}/>
-        <Route path='/aboutus' element={<Aboutus/>}/>
-        <Route path='/viewloan' element={<Viewloan/>}/>
+        {localStorage.isLoggedIn && localStorage.isLoggedIn === "true" ? (
+          <Fragment>
+            <Route path='/applyloan' element={<Applyloan/>}/>
+            <Route path='/viewloan' element={<Viewloan/>}/>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Route path='/' element={<Homepage/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/aboutus' element={<Aboutus/>}/>
+          </Fragment>
+        )
+      }
       </Routes>
     </div>
   );

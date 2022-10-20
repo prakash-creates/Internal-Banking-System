@@ -7,6 +7,7 @@ import { userLogin } from "../slices/userSlice";
 import './Login.css';
 import {FloatingLabel, Form, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import Footer from './Footer';
+import axios from "axios";
 
 function Login()
 {
@@ -41,27 +42,45 @@ function Login()
         </Popover>
     );
 
-    let { userObj, isSuccess, isError, errMsg } = useSelector(
+    /*let { userObj, isSuccess, isError, errMsg } = useSelector(
         (state) => state.data
-    );
+    );*/
 
-    const dispatch = useDispatch();
+        const dispatch = useDispatch();
         const navigate = useNavigate();
+
         const {
             register,
             handleSubmit,
             formState: { errors },
         } = useForm();
+
         const onFormSubmit = (userObj) => {
-            console.log(userObj);
-            dispatch(userLogin(userObj));
+            console.log(userObj["User Details"]);
+
+            axios
+                .post("http://localhost:8080/api/auth/login", { // This needs to be rectified
+                    username: userObj["username"],
+                    userpassword: userObj["password"],
+                })
+                .then((res) => {
+                    console.log(res);
+                    localStorage.token = `Bearer ${res.data.jwttoken}`;
+                    localStorage.isLoggedIn = true;
+                    window.location = "/";
+                    alert("Login Successful");
+                })
+                .catch((e) => {
+                    console.log(e);
+                    alert("Login Failed");
+                });
         };
 
-        useEffect(() => {
+        /*useEffect(() => {
             if (isSuccess) {
                 navigate("/applyloan");
             }
-        }, [isSuccess, userObj, navigate]);
+        }, [isSuccess, userObj, navigate]);*/
 
     return(
         <>
@@ -88,8 +107,6 @@ function Login()
 
                         <h3 style={{"marginBottom" : "1.3rem"}}>Sign In</h3>
                             <Form autoComplete='off' onSubmit={handleSubmit(onFormSubmit)}>
-
-                            {isError && <p className="text-danger text-center h3">{errMsg}</p>}
 
                             <div className="form-outline mb-4">
                                 <FloatingLabel className="mb-3 row" controlId="formUsername" label="Enter Username">
