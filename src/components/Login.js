@@ -56,19 +56,23 @@ function Login()
         } = useForm();
 
         const onFormSubmit = (userObj) => {
-            console.log("A message here" + userObj["username"]);
+            console.log(userObj["username"]);
+        
 
             axios
                 .post("http://localhost:8080/api/auth/login", { // This needs to be rectified
                     username: userObj["username"],
                     password: userObj["password"]
+                    
                 })
                 .then((res) => {
                     console.log(res);
                     localStorage.token = `Bearer ${res.data.jwttoken}`;
                     localStorage.isLoggedIn = true;
-                    localStorage.username = userObj["username"]; //demo try
+                    localStorage.username = userObj["username"];
                     window.location = "/";
+                
+
                     alert("Login Successful");
                 })
                 .catch((e) => {
@@ -123,7 +127,7 @@ function Login()
 
                             <div className="form-outline">
                                 <FloatingLabel className="mb-3 row" controlId="formPassword" label="Enter Password">
-                                    <Form.Control type="password" placeholder="Enter password" {...register("userpassword", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})} />
+                                    <Form.Control type="password" placeholder="Enter password" {...register("password", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})} />
                                     <OverlayTrigger trigger="click" placement="bottom" overlay={popoverPass}>
                                         <Button variant="none" style={{"marginTop" : "0.5em"}}><FcInfo style={{"fontSize" : "1em"}}/>  <span className="text-muted" style={{"fontWeight" : "700", "fontSize" : "0.9em"}}>Allowed Password Pattern</span></Button>
                                     </OverlayTrigger>
