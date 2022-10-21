@@ -19,6 +19,7 @@ export default function App() {
     <div className="App">
       <NavigationBar/>
       <Routes>
+        <Route path='/' element={<Homepage/>}/>
         {localStorage.isLoggedIn && localStorage.isLoggedIn === "true" ? (
           <Fragment>
             <Route path='/applyloan' element={<Applyloan/>}/>
@@ -26,7 +27,6 @@ export default function App() {
           </Fragment>
         ) : (
           <Fragment>
-            <Route path='/' element={<Homepage/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/aboutus' element={<Aboutus/>}/>
           </Fragment>

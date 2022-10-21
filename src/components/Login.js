@@ -56,17 +56,18 @@ function Login()
         } = useForm();
 
         const onFormSubmit = (userObj) => {
-            console.log(userObj["User Details"]);
+            console.log("A message here" + userObj["username"]);
 
             axios
                 .post("http://localhost:8080/api/auth/login", { // This needs to be rectified
                     username: userObj["username"],
-                    userpassword: userObj["password"],
+                    password: userObj["password"]
                 })
                 .then((res) => {
                     console.log(res);
                     localStorage.token = `Bearer ${res.data.jwttoken}`;
                     localStorage.isLoggedIn = true;
+                    localStorage.username = userObj["username"]; //demo try
                     window.location = "/";
                     alert("Login Successful");
                 })
