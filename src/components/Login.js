@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from 'react-redux'
 import {useForm} from 'react-hook-form'
 import { FcInfo } from "react-icons/fc";
 import {Link, useNavigate} from 'react-router-dom'
-import { userLogin } from "../slices/userSlice";
 import './Login.css';
 import {FloatingLabel, Form, Button, OverlayTrigger, Popover} from 'react-bootstrap';
 import Footer from './Footer';
@@ -42,12 +41,10 @@ function Login()
         </Popover>
     );
 
-    /*let { userObj, isSuccess, isError, errMsg } = useSelector(
-        (state) => state.data
-    );*/
+    
 
-        const dispatch = useDispatch();
-        const navigate = useNavigate();
+       /* const dispatch = useDispatch();
+        const navigate = useNavigate();*/
 
         const {
             register,
@@ -57,28 +54,33 @@ function Login()
 
         const onFormSubmit = (userObj) => {
             console.log(userObj["username"]);
-        
-
+            console.log(userObj["password"]);
+    
             axios
-                .post("http://localhost:8080/api/auth/login", { // This needs to be rectified
+                .post("http://localhost:8083/api/auth/login",
+                
+                 { 
                     username: userObj["username"],
                     password: userObj["password"]
                     
                 })
                 .then((res) => {
                     console.log(res);
-                    localStorage.token = `Bearer ${res.data.jwttoken}`;
+                    localStorage.token = `Bearer ${res.data.authenticationToken}`;
                     localStorage.isLoggedIn = true;
+                    console.log(res.data);
+                    localStorage.demo = res.data["authenticationToken"];
                     localStorage.username = userObj["username"];
                     window.location = "/";
-                
-
                     alert("Login Successful");
                 })
                 .catch((e) => {
                     console.log(e);
                     alert("Login Failed");
                 });
+                console.log(localStorage.token);
+                console.log(localStorage.demo);
+
         };
 
         /*useEffect(() => {
@@ -111,7 +113,7 @@ function Login()
                         <div class="card-body p-md-5 mx-md-4">
 
                         <h3 style={{"marginBottom" : "1.3rem"}}>Sign In</h3>
-                            <Form autoComplete='off' onSubmit={handleSubmit(onFormSubmit)}>
+                            <Form onSubmit={handleSubmit(onFormSubmit)}>
 
                             <div className="form-outline mb-4">
                                 <FloatingLabel className="mb-3 row" controlId="formUsername" label="Enter Username">
@@ -139,7 +141,7 @@ function Login()
                             </div>
 
                             <div class="text-center pt-1 mb-5 pb-1">
-                                <p className="text-secondary h6">Forgot Password ?</p>
+                               <Link to = "/forgotpassword">  <p className="text-secondary h6">Forgot Password ?</p></Link>
                                 <Button variant="primary" type="submit" style={{"width" : "30%"}}> <strong className="text-white">Log In</strong> </Button>
                             </div>
                     {/*

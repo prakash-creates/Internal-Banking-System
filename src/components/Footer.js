@@ -6,7 +6,7 @@ function Footer()
     return(
         <footer>
             <div className="footer-content">
-                <h3>Interal Banking Systems</h3>
+                <h3>Internal Banking Systems</h3>
                 <p>Your true banking solutions</p>
                 <ul class="socials">
                     <li><a href="#"><FaFacebook/></a></li>

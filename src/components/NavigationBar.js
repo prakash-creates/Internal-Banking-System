@@ -1,27 +1,38 @@
 import './NavigationBar.css'
-import { Fragment, useState } from 'react';
-import {Navbar, Container, Nav, Modal, Button} from 'react-bootstrap';
-import {FaRupeeSign} from 'react-icons/fa'
+import { Fragment, useEffect, useState, Dropdown } from 'react';
+import {Navbar,NavDropdown, Container, Nav, Modal, Button, Table} from 'react-bootstrap';
+import {FaRupeeSign, FaUserCircle} from 'react-icons/fa'
 import {Link} from 'react-router-dom';
 import Emicalculator from './Emicalculator';
 import axios from 'axios';
 
 export default function NavigationBar()
 {
-    
+
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [UserDetails, setUserDetails] = useState([]);
 
-    const handleClick = () => {
+    const [userDetails, setUserDetails] = useState([]);
+
+    const [showDetails, setShowDetails] = useState(false);
+    const handleDetailClose = () => setShowDetails(false);
+    const handleDetailShow = () => setShowDetails(true);
+
+    useEffect ( () => {
         axios
-        .get("http://localhost:8080/api/auth/get/"+localStorage.username)
+        .get("http://localhost:8083/api/auth/get/"+localStorage.username,
+        {headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Content-type": "Application/json",
+            "Authorization": `Bearer ${localStorage.demo}`            }           })
         .then((res) => {
             setUserDetails(res.data)
         })
-    }
-    console.log(UserDetails);
+    }, []
+   // console.log(userDetails);
+    )
 //console.log(res);
 
     const handleLogout = () => {
@@ -40,19 +51,27 @@ export default function NavigationBar()
                             {localStorage.isLoggedIn && localStorage.isLoggedIn === 'true' ? (
                                 <Fragment>
                                     <Link to="/" className='nav-link'><h5>Home</h5></Link>
-                                    <Link to="/" className='nav-link'><h5>{localStorage.username}</h5></Link>
-                                    <Link to="/applyloan" className='nav-link'><h5>Apply Loan</h5></Link>
-                                    <Link to="/viewloan" className='nav-link'><h5>View Loan Details</h5></Link>
+
+                                    <NavDropdown title = {<h5><FaUserCircle/>  {localStorage.username}</h5>} id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={handleDetailShow}><h5>View User Details</h5></NavDropdown.Item>
+                                <NavDropdown.Item href="/applyloan">
+                                    <h5>Apply Loan</h5>
+                                </NavDropdown.Item>
+                                <NavDropdown.Item href="/viewloan"><h5>View Loan Details</h5></NavDropdown.Item>
+                    
+                                </NavDropdown>
+
+
+                                    
                                     <Link onClick={handleLogout} className='nav-link'><h5>Logout</h5></Link>
-                                    <Link onClick={handleClick} className='nav-link'><h5>User Detail</h5></Link>
                                 </Fragment>
                             ) : (
                                 <Fragment>
                                     <Link to="/login" className='nav-link'><h5>Login</h5></Link>
                                     <Link onClick={handleShow} className='nav-link'><h5>EMI Calculator</h5></Link>
-                                    <Link to="/aboutus" className='nav-link'><h5>About Us</h5></Link>
                                 </Fragment>
                             )}
+                            <Link to="/aboutus" className='nav-link'><h5>About Us</h5></Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -69,7 +88,62 @@ export default function NavigationBar()
                     <Button variant="outline-danger" onClick={handleClose}> <b>Close</b> </Button>
                 </Modal.Footer>
             </Modal>
+
+            {/* User Details */}
+
+                <Modal show={showDetails} onHide={handleDetailClose} backdrop="static" keyboard={false}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>User Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Table striped bordered hover style={{"fontSize" : "1.5em", "padding" : "2em"}}>
+                        <tbody>
+                        
+                        <>
+                        <tr>
+                            <td><strong>Id : </strong></td>
+                            <td> {userDetails.id}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Username : </strong></td>
+                            <td> {userDetails.userName}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><strong>User Type : </strong></td>
+                            <td> {userDetails.usertype}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gender : </strong></td>
+                            <td> {userDetails.gender}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Designation : </strong></td>
+                            <td> {userDetails.designation}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Address : </strong></td>
+                            <td> {userDetails.address}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email Id : </strong></td>
+                            <td> {userDetails.emailid}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contact Number : </strong></td>
+                            <td> {userDetails.contactno}</td>
+                        </tr>
+                        </>
+                        
+                        
+                        
+                    </tbody>
+                </Table>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="outline-danger" onClick={handleDetailClose}> <b>Close</b> </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
-

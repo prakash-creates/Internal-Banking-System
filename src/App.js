@@ -8,6 +8,7 @@ import Aboutus from './components/Aboutus';
 import Viewloan from './components/Viewloan';
 import axios from 'axios';
 import { Fragment } from 'react';
+import Forms from './components/Forms';
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
   return (
     <div className="App">
       <NavigationBar/>
+      {/* //To paste user welcome message */}
       <Routes>
       <Route path='/' element={<Homepage/>}/>
 
@@ -29,10 +31,11 @@ export default function App() {
         ) : (
           <Fragment>
             <Route path='/login' element={<Login/>}/>
-            <Route path='/aboutus' element={<Aboutus/>}/>
+            <Route path='/forgotpassword' element={<Forms/>}/>
           </Fragment>
         )
       }
+        <Route path='/aboutus' element={<Aboutus/>}/>
       </Routes>
     </div>
   );
