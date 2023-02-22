@@ -28,6 +28,30 @@ function Homeloan()
 
     };
 
+    const loanamtlabel = (
+        <>
+            Enter Loan Amount <span className="text-danger"> <b>*</b> </span>
+        </>
+    );
+
+    const loantenurelabel = (
+        <>
+            Tenure of loan (in years) <span className="text-danger"> <b>*</b> </span>
+        </>
+    );
+
+    const annualsalary = (
+        <>
+            Enter Annual Salary <span className="text-danger"> <b>*</b> </span>
+        </>
+    );
+
+    const addressLabel = (
+        <>
+            Enter the Address of the Property <span className="text-danger"> <b>*</b> </span>
+        </>
+    );
+
     const [loanid, setLoanid]=useState({});
 
     const {
@@ -40,11 +64,21 @@ function Homeloan()
     {
         console.log(localStorage.demo);
 
+        //Calculating Monthly EMI : 
+        console.log("Monthly EMI : " + LoanEmi(rateOfInterest, userObj.amount, userObj.duration));
+        
+        userObj.loan_id = loanid;
+        console.log(loanid);
+
         //Parsing the data to integer.
 
         userObj.amount = parseInt(userObj.amount);
         userObj.duration = parseInt(userObj.duration);
         userObj.annualIncome = parseInt(userObj.annualIncome);
+
+        //To use this when using backend APIs.
+        //userObj.monthlyEmi = LoanEmi(userObj.loan_id.interest, userObj.amount, userObj.duration);
+        userObj.monthlyEmi = LoanEmi(rateOfInterest, userObj.amount, userObj.duration);
 
         console.log(userObj["amount"]);
         console.log(userObj["duration"]);
@@ -53,11 +87,7 @@ function Homeloan()
         console.log(userObj);
         console.log(localStorage.token);
 
-        //Calculating Monthly EMI : 
-        console.log("Monthly EMI : " + LoanEmi(rateOfInterest, userObj.amount, userObj.duration));
         
-        userObj.loan_id = loanid;
-        console.log(loanid);
             
         //To submit the loan applied by the user 
         axios
@@ -116,63 +146,33 @@ function Homeloan()
         <Container fluid>
 
         <Row className='d-flex justify-content-center align-items-center'>
-        <Col lg='9' className='my-5'>
+        <Col lg='9' className='my-3'>
 
-            <h1 className="text-dark mb-4">Apply for home loan</h1>
+            <h1 className="text-dark mb-4" style={{ fontFamily: "Libre Baskerville", textTransform: "capitalize" }}>Apply for home loan</h1>
 
             <Card style={{"border" : "1px solid #000", "backgroundColor" : "#F2F3F4", "boxShadow" : "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0) 0px 30px 60px -30px, rgba(10, 37, 64) 0px -2px 6px 0px inset"}}>
             <Card.Body className='px-4'>
-
             <Form autoComplete='off' onSubmit={handleSubmit(onFormSubmit)}>
-
-            <hr className="mx-3" style={{"borderWidth" : "3px"}} />
-
-            <Form.Text className='mb-3'>
-                <p className='h4'>Generic Details</p>
-            </Form.Text>
-
-            <hr className="mx-3" style={{"borderWidth" : "3px"}} />
-
-                <Row className='align-items-center'>
-                    <Form.Group className="mb-3 pt-3" controlId="formBasicTenure">
-
-                        <Col md='10' className='mx-auto mt-3'>
-                            <FloatingLabel className="mb-1" controlId="formTenure" label="Type of Loan">
-                                <Form.Select type="number" placeholder="Enter Tenure" defaultValue={"Home loan"} disabled>
-                                    <option defaultChecked>Home Loan</option>
-                                    <option>Personal Loan</option>
-                                    <option>Education Loan</option>
-                                </Form.Select>
-                            </FloatingLabel>
-                        </Col>
-
-                    </Form.Group>
-                </Row>
-
-                    <hr className="mx-3" style={{"borderWidth" : "3px"}} />
-
                 <Row className='align-items-center pt-4'>
                     <Form.Group className="mb-3" controlId="formBasicAmount">
 
-                        <Col md='10' className='mx-auto mt-3'>
-                            <FloatingLabel className="mb-3" controlId="formAmount" label="Enter Loan Amount">
+                        <Col md='10' className='mx-auto'>
+                            <FloatingLabel controlId="formAmount" label={loanamtlabel}>
                                 <Form.Control type="number" placeholder="Enter Amount"  {...register("amount", {required: true, min: 100000, max: 10000000})} />
                             </FloatingLabel>
-                            {errors.amount?.type === "required" && (<p className="text-danger"><strong>Please enter the loan amount</strong></p>)}
-                            {errors.amount?.type === "min" && (<p className="text-danger"><strong>Loan can be issued for an amount of 1,00,000 and above</strong></p>)}
-                            {errors.amount?.type === "max" && (<p className="text-danger"><strong>Loan can be issued for a maximum value of 1,00,00,000</strong></p>)}
+                            {errors.amount?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter the loan amount</strong></p>)}
+                            {errors.amount?.type === "min" && (<p className="text-danger"><strong className="text-danger">Loan can be issued for an amount of 1,00,000 and above</strong></p>)}
+                            {errors.amount?.type === "max" && (<p className="text-danger"><strong className="text-danger">Loan can be issued for a maximum value of 1,00,00,000</strong></p>)}
                         </Col>
 
                     </Form.Group>
                 </Row>
 
-                <hr className="mx-3" style={{"borderWidth" : "3px"}} />
-
-                <Row className='align-items-center pt-4'>
+                <Row className='align-items-center'>
                     <Form.Group className="mb-3" controlId="formBasicDate">
 
-                        <Col md='10' className='mx-auto mt-3'>
-                            <FloatingLabel className="mb-3" controlId="formTenure" label="Application Date">
+                        <Col md='10' className='mx-auto'>
+                            <FloatingLabel controlId="formTenure" label="Application Date">
                                 <Form.Control type="date" defaultValue={today} {...register("applyDate", {required: true})} readOnly/>
                             </FloatingLabel>
                         </Col>
@@ -180,72 +180,98 @@ function Homeloan()
                     </Form.Group>
                 </Row>
 
-                    <hr className="mx-3" style={{"borderWidth" : "3px"}} />
+                    
 
-                <Row className='align-items-center pt-4'>
+                <Row className='align-items-center'>
                     <Form.Group className="mb-3" controlId="formBasicTenure">
 
-                        <Col md='10' className='mx-auto mt-3'>
-                            <FloatingLabel className="mb-3" controlId="formTenure" label="Tenure of loan (in years)">
+                        <Col md='10' className='mx-auto'>
+                            <FloatingLabel controlId="formTenure" label={loantenurelabel}>
                                 <Form.Control type="number" placeholder="Enter Tenure" {...register("duration", {required: true, min: 4, max: 15})} />
                             </FloatingLabel>
-                            {errors.duration?.type === "required" && (<p className="text-danger"><strong>Please enter the expected tenure of the loan</strong></p>)}
-                            {errors.duration?.type === "min" && (<p className="text-danger"><strong>Loan tenure should be a minimum of 4 years</strong></p>)}
-                            {errors.duration?.type === "max" && (<p className="text-danger"><strong>Loan cannot be issued for more than 15 years</strong></p>)}
+                            {errors.duration?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter the expected tenure of the loan</strong></p>)}
+                            {errors.duration?.type === "min" && (<p className="text-danger"><strong className="text-danger">Loan tenure should be a minimum of 4 years</strong></p>)}
+                            {errors.duration?.type === "max" && (<p className="text-danger"><strong className="text-danger">Loan cannot be issued for more than 15 years</strong></p>)}
                         </Col>
 
                     </Form.Group>
                 </Row>
-
-                <hr className="mx-3" style={{"borderWidth" : "3px"}} />
-
-                <Row className='align-items-center pt-4'>
-                    <Form.Group className="mb-3" controlId="formBasicSalary">
-
-                        <Col md='10' className='mx-auto mt-3'>
-                            <FloatingLabel className="mb-3" controlId="formAmount" label="Enter Annual Salary">
-                                <Form.Control type="number" placeholder="Enter Amount" {...register("annualIncome", {required: true, min: 250000, max: 4000000})} />
-                                <Form.Text className='text-muted'>The entered salary is subject to verification from the authorities.</Form.Text>
-                            </FloatingLabel>
-                            {errors.annualIncome?.type === "required" && (<p className="text-danger"><strong>Please enter your annual income</strong></p>)}
-                            {errors.annualIncome?.type === "min" && (<p className="text-danger"><strong>Your organization's lowest pay is 2,50,000</strong></p>)}
-                            {errors.annualIncome?.type === "max" && (<p className="text-danger"><strong>Your organization's highest pay is 40,00,000</strong></p>)}
-                        </Col>
-
-                    </Form.Group>
-                </Row>
-
-                <hr className="mx-3" style={{"borderWidth" : "3px"}} />
-
-                    <Form.Text className='mb-3'>
-                        <p className='h4'>Loan Specific Details</p>
-                    </Form.Text>
-
-                <hr className="mx-3" style={{"borderWidth" : "3px"}} />
 
                 
 
-                <Row className='align-items-center pt-4'>
-                    <Form.Group className="mb-3" controlId="formBasicAddress">
+                <Row className='align-items-center'>
+                    <Form.Group className="mb-3" controlId="formBasicSalary">
 
-                        <Col md='10' className='mx-auto mt-3'>
-                            <FloatingLabel className="mb-3" controlId="formAddress" label="Enter the address of the property">
-                                <Form.Control as="textarea" placeholder="Enter address" style={{ height: '100px' }} {...register("permanentAddress", {required: true, maxLength: 300})} />
+                        <Col md='10' className='mx-auto'>
+                            <FloatingLabel controlId="formAmount" label={annualsalary}>
+                                <Form.Control type="number" placeholder="Enter Amount" {...register("annualIncome", {required: true, min: 250000, max: 4000000})} />
+                                <Form.Text className='text-muted'>The entered salary is subject to verification from the authorities.</Form.Text>
                             </FloatingLabel>
-                            {errors.address?.type === "required" && (<p className="text-danger"><strong>Please enter the address of the property.</strong></p>)}
-                            {errors.address?.type === "maxLength" && (<p className="text-danger"><strong>Enter the address in 300 characters or less.</strong></p>)}
+                            {errors.annualIncome?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter your annual income</strong></p>)}
+                            {errors.annualIncome?.type === "min" && (<p className="text-danger"><strong className="text-danger">Your organization's lowest pay is 2,50,000</strong></p>)}
+                            {errors.annualIncome?.type === "max" && (<p className="text-danger"><strong className="text-danger">Your organization's highest pay is 40,00,000</strong></p>)}
                         </Col>
 
                     </Form.Group>
                 </Row>
 
-                    <hr className="mx-3" style={{"borderWidth" : "3px"}} />
+                <Row className='align-items-center'>
+                    <Form.Group className="mb-3" controlId="formBasicAddress">
 
-                    <Form.Text className='mb-3'>
-                        <p className='h6'>** You will be contacted by our officials, regarding the mortgage documents for the loan.</p>
-                    </Form.Text>
+                        <Col md='10' className='mx-auto'>
+                            <FloatingLabel controlId="formAddress" label={addressLabel}>
+                                <Form.Control as="textarea" placeholder="Enter address" style={{ height: '100px' }} {...register("permanentAddress", {required: true, maxLength: 300})} />
+                            </FloatingLabel>
+                            {errors.permanentAddress?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter the address of the property.</strong></p>)}
+                            {errors.permanentAddress?.type === "maxLength" && (<p className="text-danger"><strong className="text-danger">Enter the address in 300 characters or less.</strong></p>)}
+                        </Col>
 
-                    <hr className="mx-3" style={{"borderWidth" : "3px"}} />
+                    </Form.Group>
+                </Row>
+
+                <Row className="align-items-center justify-content-start">
+                    <Form.Group
+                    className="mb-3 text-left"
+                    controlId="formBasicCourseFee"
+                    >
+                    <Col md="10" className="mx-auto text-left">
+                        <Form.Label
+                        controlId="formAmount"
+                        label="Upload buyer agreement"
+                        className="text-left"
+                        >
+                            Upload Buyer's Agreement
+                        </Form.Label>
+                        <Form.Control
+                        type="file"
+                        multiple
+                        accept="application/pdf"
+                        />
+                    </Col>
+                    </Form.Group>
+                </Row>
+
+                <Row className="align-items-center justify-content-start">
+                    <Form.Group
+                    className="mb-3 text-left"
+                    controlId="formBasicCourseFee"
+                    >
+                    <Col md="10" className="mx-auto text-left">
+                        <Form.Label
+                        controlId="formAmount"
+                        label="Upload proof of residence"
+                        className="text-left"
+                        >
+                            Upload Proof of Residence
+                        </Form.Label>
+                        <Form.Control
+                        type="file"
+                        multiple
+                        accept="application/pdf"
+                        />
+                    </Col>
+                    </Form.Group>
+                </Row>
 
                     <Button type='submit' className='my-4 w-50' size='lg'>Apply</Button>
                     </Form>

@@ -1,6 +1,7 @@
 import Footer from "./Footer";
-import {Button, Form, Table, Card, FloatingLabel, Row, Col} from 'react-bootstrap'
+import {Button, Form, Table, Card, FloatingLabel, Row, Col, Modal, Container} from 'react-bootstrap'
 import { useState, useEffect } from "react";
+import { FaEdit } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import axios from "axios";
 
@@ -29,11 +30,76 @@ function Viewloan()
 
     }
 
+    const someData = [
+        {
+            id : 1,
+            amount: 50000,
+            duration : 8,
+            applyDate : "2022-10-12",
+            loan_id : {
+                name : "Education Loan",
+                interest : 10,
+                id : 2
+            },
+            courseName : "B Tech",
+            courseFee : 120000,
+            permanentAddress : "something street",
+            designation : "Associate",
+            totalExperience : 20,
+        },
+        {
+            id : 2,
+            amount: 150000,
+            duration : 6,
+            applyDate : "2022-12-12",
+            loan_id : {
+                name : "Personal Loan",
+                interest : 12,
+                id : 1
+            },
+            designation : "Associate",
+            totalExperience : 20,
+        },
+        {
+            id : 5,
+            amount: 200000,
+            duration : 12,
+            applyDate : "2022-10-10",
+            loan_id : {
+                name : "Home Loan",
+                interest : 13,
+                id : 3
+            },
+            permanentAddress : "something street",
+        },
+        {
+            id : 7,
+            amount: 70000,
+            duration : 8,
+            applyDate : "2022-10-12",
+            loan_id : {
+                name : "Education Loan",
+                interest : 10,
+                id : 2
+            },
+            courseName : "B Tech",
+            courseFee : 120000,
+        },
+        
+    ];
+
     const [editable, setEditable] = useState(true);
 
-    const [show, setShow] = useState(true);
+    const [showOld, setshowOld] = useState(true);
 
-    const [data, setLoanData] = useState([]);
+    const [data, setLoanData] = useState([]); //To change this for backend integrations.
+
+    /* Dividing the loan records based on loan type */
+
+    const [homeloanData, setHomeloanData] = useState([]);
+    const [personalloanData, setPersonalloanData] = useState([]);
+    const [educationloanData, setEducationloanData] = useState([]);
+    
 
     /* const [loanInterest, setInterest] = useState(10);
 
@@ -48,24 +114,47 @@ function Viewloan()
 
     const {
         register,
+        getValues, 
+        setValue,
         handleSubmit,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            loanid : "1"
+        }});
+
+    
+    
 
     const onFormSubmit = (userObj) => 
     {
-        console.log(localStorage.demo);
+        //console.log(modalData);
+        setValue("loanid", modalData.id);
+        userObj.loanid = modalData.id;
+        //console.log(localStorage.demo);
+        console.log(userObj);
 
         //Parsing the data to integer.
-
         userObj.duration = parseInt(userObj.duration);
 
+        let ObjToPass;
+        let iter = 0;
+
+        data.forEach(element => {
+            iter = iter + 1;
+            if(element.id === userObj.loanid)
+            {
+                console.log("This should be the correct JSON element to pass", element);
+                ObjToPass = element;
+            }
+        });
+        console.log("ObjToPass", ObjToPass);
         console.log(userObj["duration"]);
-        const ind = userObj.loanid;
-        data[ind].duration = userObj.duration;
+        ObjToPass.duration = userObj.duration;
 
         console.log(userObj);
-        console.log("The json object to be passed to backend is ", data[userObj.loanid])
+
+        console.log("The json object to be passed to backend is ", ObjToPass);
         console.log(localStorage.token);
 
         //Calculating Monthly EMI : 
@@ -74,7 +163,7 @@ function Viewloan()
             
         //To submit the loan applied by the user 
         axios
-            .put("http://localhost:8083/updateLoan/"+localStorage.username, data[userObj.loanid],
+            .put("http://localhost:8083/updateLoan/"+localStorage.username, ObjToPass,
             {
                 headers: 
                 {
@@ -96,10 +185,10 @@ function Viewloan()
     };
 
     function changeState() {
-        setShow(!show);
+        setshowOld(!showOld);
         setEditable(!editable);
     }
-
+    
 
     useEffect(() => {
         axios
@@ -115,34 +204,218 @@ function Viewloan()
         .then((res) => {
             console.log(res.data);
             console.log(res);
-            setLoanData(res.data);
+            const temp = res.data;
+            console.log(temp);
+            setLoanData(temp);
+           // console.log(data);
         })
         .catch((e) => {
             console.log(e);
             alert("Could not fetch the loan details");
         });
-        console.log(localStorage.token);
-        console.log(localStorage.demo);
+        //console.log(localStorage.token);
+        //console.log(localStorage.demo);
+        console.log(data);
 
-} 
-    , []);
+        var edu = [];
+        var pers = [];
+        var home = [];
+        data.forEach(element => {
+            console.log(element);
+            if(element.loan_id.id === 1)
+            {
+                pers.push(element);
+            }
+            else if(element.loan_id.id === 2)
+            {
+                edu.push(element);
+            }
+            else
+            {
+                home.push(element);
+            }
+        });
+        console.log(edu);
+        console.log(pers);
+        console.log(home);
+        setEducationloanData(edu);
+        setHomeloanData(home);
+        setPersonalloanData(pers);
+        
+    }
+    , [data]);
+
+    useEffect(() => {
+        console.log(data);
+
+        var edu = [];
+        var pers = [];
+        var home = [];
+        data.forEach(element => {
+            console.log(element);
+            if(element.loan_id.id === 1)
+            {
+                pers.push(element);
+            }
+            else if(element.loan_id.id === 2)
+            {
+                edu.push(element);
+            }
+            else
+            {
+                home.push(element);
+            }
+        });
+        console.log(edu);
+        console.log(pers);
+        console.log(home);
+        setEducationloanData(edu);
+        setHomeloanData(home);
+        setPersonalloanData(pers);
+    } , []);
+
+    //To define the data to be shown in modal
+
+    const [modalData, setModalData] = useState({});
+
+    const onButtonClick = (someObj) => {
+        //console.log(someObj);
+        //localStorage.idForLoanChange = someObj.id;
+        //alert(someObj.amount);
+        setModalData(someObj);
+        //console.log(modalData);
+        handleShow();
+    }
+
+    //For conditional rendering of tables
+    const [status, setStatus] = useState(1);
+
+    const radioHandler = (status) => {
+        setStatus(status);
+    };
+
+    //For modal window edit tenure section
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    useEffect(() => {
+        register("loanid");
+        console.log(modalData);
+    }, [register]);
+    
+    useEffect(() => {
+        
+        console.log(data);
+        register("loanid", modalData.id);
+        console.log("modalData is probably changed by now");
+        console.log(modalData);
+    }, [modalData]);
+
 
     return(
         <>
         <div style={{"paddingBottom" : "1em", "backgroundColor" : "#909090"}}>
-            <h2 style={{"paddingTop" : "0.5em", "paddingBottom" : "0.5em", "color" : "#fff", "fontWeight" : "700", "fontFamily" : "cursive"}}>My Loans</h2>
-            
-            <div className="table-responsive container" style={{"height" : "35em", "overflow" : "scroll", "border" : "1px solid #000", "padding" : "2px", "marginBottom" : "2em", "backgroundColor" : "#fafafa"}}>
-                <Table striped bordered hover style={{"fontSize" : "1.5em", "padding" : "2em", "width" : "150%"}}>
+            <h2 style={{"paddingTop" : "0.5em", "paddingBottom" : "0.5em", "color" : "#fff", "fontWeight" : "700", "fontFamily" : "Libre Baskerville"}}>My Loans</h2>
+
+            <div className="container" style={{background : "#c7c5c5", color : "#383838",fontSize : "20px", margin : "20px auto", fontWeight : "700", border : "1px solid #fff"}}>
+                <Form>
+                    <div className="mb-3 mt-3">
+                        <Form.Check inline name="loanType" type="radio" id={`default-radio`} checked={status === 1} onClick={(e) => radioHandler(1)} label="Home Loan" />
+                        <Form.Check inline name="loanType" type="radio" id={`default-radio`} checked={status === 2} onClick={(e) => radioHandler(2)} label="Personal Loan" />
+                        <Form.Check inline name="loanType" type="radio" id={`default-radio`} checked={status === 3} onClick={(e) => radioHandler(3)} label="Education Loan" />
+                    </div>
+                </Form>
+            </div>
+            {status === 1 &&
+            <div className="table-responsive container" style={{"height" : "25em", "overflow" : "scroll", "border" : "1px solid #000", "padding" : "2px", "marginBottom" : "4em", "backgroundColor" : "#fafafa"}}>
+                <Table striped bordered hover style={{"fontSize" : "1em", "padding" : "1em", "width" : "100%"}}>
                     <thead className="thead-dark" style={{"color" : "#fff", "backgroundColor" : "#212529", "borderColor" : "#32383e", "position" : "sticky", "top" : "0px"}}>
                         <tr style={{border : "1px solid #fff", "borderBottomWidth" : "2px"}}>
-                            <th colSpan={6}>Generic Loan Details</th>
-                            <th colSpan={2}>Education Loan</th>
-                            <th>Home Loan</th>
-                            <th colSpan={2}>Personal Loan</th>
+                            <th colSpan={9}>Home Loan</th>
                         </tr>
                         <tr>
-                            <th>Serial no</th>
+                            <th>#</th>
+                            <th style={{"width" : "20em"}}>Loan Id</th>
+                            <th style={{"width" : "20em"}}>Loan Type</th>
+                            <th style={{"width" : "20em"}}>Loan Amount</th>
+                            <th style={{"width" : "20em"}}>Loan Tenure</th>
+                            <th style={{"width" : "20em"}}>Expected Monthly EMI</th>
+                            <th style={{"width" : "20em"}}>Apply Date</th>
+                            <th style={{"width" : "20em"}}>Property Address</th>
+                            <th style={{"width" : "5em"}}><FaEdit size={20}/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {homeloanData?.map((item, i) => (
+                        
+                        <tr key={i} style={{fontWeight : "600", fontSize : "16px"}}>
+                            <td>{i+1}</td>
+                            <td>{item.id}</td>
+                            <td>{item.loan_id.name}</td>
+                            <td>&#8377; &nbsp;{item.amount}</td>
+                            <td>{item.duration + " Years"}</td>
+                            <td>&#8377; &nbsp;{LoanEmi(item.loan_id.interest, item.amount, item.duration)}</td>
+                            <td>{item.applyDate}</td>
+                            <td>{item.permanentAddress}</td>
+                            <td><Button key={i} onClick={() => onButtonClick(item)}><FaEdit size={20}/></Button></td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+            }
+
+            {status === 2 &&
+            <div className="table-responsive container" style={{"height" : "25em", "overflow" : "scroll", "border" : "1px solid #000", "padding" : "2px", "marginBottom" : "4em", "backgroundColor" : "#fafafa"}}>
+                <Table striped bordered hover style={{"fontSize" : "1em", "padding" : "1em", "width" : "100%"}}>
+                    <thead className="thead-dark" style={{"color" : "#fff", "backgroundColor" : "#212529", "borderColor" : "#32383e", "position" : "sticky", "top" : "0px"}}>
+                        <tr style={{border : "1px solid #fff", "borderBottomWidth" : "2px"}}>
+                            <th colSpan={10}>Personal Loan</th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th style={{"width" : "20em"}}>Loan Id</th>
+                            <th style={{"width" : "20em"}}>Loan Type</th>
+                            <th style={{"width" : "20em"}}>Loan Amount</th>
+                            <th style={{"width" : "20em"}}>Loan Tenure</th>
+                            <th style={{"width" : "20em"}}>Expected Monthly EMI</th>
+                            <th style={{"width" : "20em"}}>Apply Date</th>
+                            <th style={{"width" : "20em"}}>Designation</th>
+                            <th style={{"width" : "20em"}}>Total Experience</th>
+                            <th style={{"width" : "5em"}}><FaEdit size={20}/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {personalloanData?.map((item, i) => (
+                        
+                        <tr key={i} style={{fontWeight : "600", fontSize : "16px"}}>
+                            <td>{i+1}</td>
+                            <td>{item.id}</td>
+                            <td>{item.loan_id.name}</td>
+                            <td>&#8377; &nbsp;{item.amount}</td>
+                            <td>{item.duration + " Years"}</td>
+                            <td>&#8377; &nbsp;{LoanEmi(item.loan_id.interest, item.amount, item.duration)}</td>
+                            <td>{item.applyDate}</td>
+                            <td>{item.designation}</td>
+                            <td>{item.totalExperience}</td>
+                            <td><Button key={i} onClick={() => onButtonClick(item)}><FaEdit size={20}/></Button></td>
+                        </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            </div>
+            }
+
+            {status === 3 &&
+            <div className="table-responsive container" style={{"height" : "25em", "overflow" : "scroll", "border" : "1px solid #000", "padding" : "2px", "marginBottom" : "4em", "backgroundColor" : "#fafafa"}}>
+                <Table striped bordered hover style={{"fontSize" : "1em", "padding" : "1em", "width" : "100%"}}>
+                    <thead className="thead-dark" style={{"color" : "#fff", "backgroundColor" : "#212529", "borderColor" : "#32383e", "position" : "sticky", "top" : "0px"}}>
+                        <tr style={{border : "1px solid #fff", "borderBottomWidth" : "2px"}}>
+                            <th colSpan={10}>Education Loan</th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
                             <th style={{"width" : "20em"}}>Loan Id</th>
                             <th style={{"width" : "20em"}}>Loan Type</th>
                             <th style={{"width" : "20em"}}>Loan Amount</th>
@@ -151,85 +424,128 @@ function Viewloan()
                             <th style={{"width" : "20em"}}>Apply Date</th>
                             <th style={{"width" : "20em"}}>Course Name</th>
                             <th style={{"width" : "20em"}}>Course Fee</th>
-                            <th style={{"width" : "20em"}}>Property Address</th>
-                            <th style={{"width" : "20em"}}>Designation</th>
-                            <th style={{"width" : "20em"}}>Total Experience</th>
+                            <th style={{"width" : "5em"}}><FaEdit size={20}/></th>
                         </tr>
                     </thead>
                     <tbody>
-                    {data.map((item, i) => (
+                    {educationloanData?.map((item, i) => (
                         
-                        <tr key={i}>
+                        <tr key={i} style={{fontWeight : "600", fontSize : "16px"}}>
                             <td>{i+1}</td>
                             <td>{item.id}</td>
                             <td>{item.loan_id.name}</td>
-                            <td>{item.amount}</td>
-                            <td>{item.duration}</td>
-                            <td>{LoanEmi(item.loan_id.interest, item.amount, item.duration)}</td>
+                            <td>&#8377; &nbsp;{item.amount}</td>
+                            <td>{item.duration + " Years"}</td>
+                            <td>&#8377; &nbsp;{LoanEmi(item.loan_id.interest, item.amount, item.duration)}</td>
                             <td>{item.applyDate}</td>
                             <td>{item.courseName}</td>
                             <td>{item.courseFee}</td>
-                            <td>{item.permanentAddress}</td>
-                            <td>{item.designation}</td>
-                            <td>{item.totalExperience}</td>
+                            <td><Button key={i} onClick={() => onButtonClick(item)}><FaEdit size={20}/></Button></td>
                         </tr>
                         ))}
                     </tbody>
                 </Table>
             </div>
-            {
-                show ? (
-                    <div className="mb-4">
-                        <Button id="edit" variant="danger" onClick={changeState}><span style={{"fontSize" : "1.5em"}}>Edit Loan Tenure</span></Button>
-                    </div>
-                ) : (
-                    <div className="mb-4">
-                        <Card style={{"border" : "1px solid #000", "marginLeft" : "10%", "marginRight" : "10%", "marginBottom" : "5%", "marginTop" : "5%", "backgroundColor" : "#CFD0D1", "boxShadow" : "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0) 0px 30px 60px -30px, rgba(10, 37, 64) 0px -2px 6px 0px inset"}}>
-                            <Card.Body className='px-4'>
-                                <Form autoComplete='off' onSubmit={handleSubmit(onFormSubmit)}>
-
-                                <Row className='align-items-center'>
-                                    <Form.Group className="mb-3 pt-3" controlId="formBasicId">
-
-                                        <Col md='10' className='mx-auto mt-3'>
-                                            <FloatingLabel className="mb-1" controlId="formTenure" label="Select the serial no of the loan to be modified">
-                                                <Form.Select type="number" placeholder="Enter Id" {...register("loanid", {required: true})}>
-                                                    {/* <option>---Select a loan Id---</option> */}
-                                                    {data.map((item, i) => <option value={i}>{i+1}</option>)}
-                                                </Form.Select>
-                                            </FloatingLabel>
-                                            {errors.courseName?.type === "required" && (<p className="text-danger"><strong>Please select a loan id for modifications</strong></p>)}
-                                        </Col>
-
-                                    </Form.Group>
-                                </Row>
-
-                                <Row className='align-items-center pt-4'>
-                                    <Form.Group className="mb-3" controlId="formBasicTenure">
-
-                                        <Col md='10' className='mx-auto mt-3'>
-                                            <FloatingLabel className="mb-3" controlId="formTenure" label="Tenure of loan (in years)">
-                                                <Form.Control type="number" placeholder="Enter Tenure" {...register("duration", {required: true, min: 4, max: 15})} />
-                                            </FloatingLabel>
-                                            {errors.duration?.type === "required" && (<p className="text-danger"><strong>Please enter the expected tenure of the loan</strong></p>)}
-                                            {errors.duration?.type === "min" && (<p className="text-danger"><strong>Loan tenure should be a minimum of 4 years</strong></p>)}
-                                            {errors.duration?.type === "max" && (<p className="text-danger"><strong>Loan cannot be issued for more than 15 years</strong></p>)}
-                                        </Col>
-
-                                    </Form.Group>
-                                </Row>
-
-                                    <Button id="save" variant="danger" type="submit"><span style={{"fontSize" : "1.5em"}}>Save Modifications</span></Button>
-
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                )
             }
 
+           
         </div>
         <Footer/>
+        <>
+            <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} >
+                <Modal.Header closeButton>
+                    <Modal.Title>Update Loan Tenure</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Container>
+                    <p className='mx-auto mt-3 text-center'><b>Loan Details</b></p>
+                    <Row className='align-items-center'>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        Loan Id : 
+                        </Col>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        {modalData.id}
+                        </Col>
+                    </Row>
+                    <Row className='align-items-center'>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        Loan Tenure : 
+                        </Col>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        {modalData.duration} Years
+                        </Col>
+                    </Row>
+                    {/* <Row className='align-items-center'>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        Loan Type : 
+                        </Col>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        {modalData.loan_id.name}
+                        </Col>
+                    </Row>
+                    <Row className='align-items-center'>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        Monthly EMI : 
+                        </Col>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        {LoanEmi(modalData.loan_id.interest, modalData.amount, modalData.duration)}
+                        </Col>
+                    </Row> */}
+                    <Row className='align-items-center'>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        Loan Amount : 
+                        </Col>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        {modalData.amount}
+                        </Col>
+                    </Row>
+                    <Row className='align-items-center'>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        Applied On : 
+                        </Col>
+                        <Col className='mx-auto' xs={6} md={4}>
+                        {modalData.applyDate}
+                        </Col>
+                    </Row>
+                    
+                    {/* {modalData.id} */}
+                    <Form autoComplete='off' onSubmit={handleSubmit(onFormSubmit)}>
+
+                        <Row className='align-items-center mx-auto'>
+                            <Col className='mx-auto' xs={6} md={4}>
+                                New Tenure : 
+                            </Col>
+                            <Col className='mx-auto mt-3' xs={12} md={8}>
+                            <Form.Group className="mb-3" controlId="formBasicTenure">
+                                <FloatingLabel className="mb-3" controlId="formTenure" label="Tenure of loan (in years)">
+                                    <Form.Control type="number" placeholder="Enter Tenure" {...register("duration", {required: true, min: 4, max: 15})} />
+                                </FloatingLabel>
+                                {errors.duration?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter the expected tenure of the loan</strong></p>)}
+                                {errors.duration?.type === "min" && (<p className="text-danger"><strong className="text-danger">Loan tenure should be a minimum of 4 years</strong></p>)}
+                                {errors.duration?.type === "max" && (<p className="text-danger"><strong className="text-danger">Loan cannot be issued for more than 15 years</strong></p>)}
+                            </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className='align-items-center pt-4'>
+                            <Form.Group className="mb-3" controlId="formBasicTenure">
+
+                                <Col md='10' className='mx-auto mt-3'>
+                                    
+                                </Col>
+
+                            </Form.Group>
+                        </Row>
+                        <Button id="save" variant="success" type="submit"><span>Save Modifications</span></Button>
+                    </Form>
+                    </Container>
+                </Modal.Body>
+                <Modal.Footer>
+                    
+                <Button variant="danger" onClick={handleClose}>Cancel</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
         </>
     )
 }

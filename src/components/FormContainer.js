@@ -26,45 +26,24 @@ function FormContainer() {
   const [password, setPassword] = useState();
   const [page, setPage] = useState(0);
   console.log(page);
-  const popover = (
-    <Popover id="username-popover">
-      <Popover.Header as="h3">Username - Allowed patterns</Popover.Header>
-      <Popover.Body>
-        <ul>
-          <li>Alphabets, numbers and underscore ( _ ) only.</li>
-          <li>Should start with alphabet only.</li>
-          <li>Cannot end with underscore ( _ ).</li>
-          <li>Minimum length = 5 characters</li>
-        </ul>
-      </Popover.Body>
-    </Popover>
-  );
-  const popoverPass = (
-    <Popover id="password-popover">
-      <Popover.Header as="h3">Password - Allowed patterns</Popover.Header>
-      <Popover.Body>
-        <ul>
-          <li>Alphanumeric characters only.</li>
-          <li>At least 1 uppercase letter.</li>
-          <li>At least 1 lowercase letter.</li>
-          <li>At least 1 number.</li>
-          <li>Minimum length = 8 characters</li>
-          <li>Maximum length = 16 characters</li>
-        </ul>
-      </Popover.Body>
-    </Popover>
-  );
+
+  const userlabel = (<>Enter Username <span className="text-danger"><b>*</b></span> </>) ;
+  const passwordlabel = (<>Enter New Password <span className="text-danger"><b>*</b></span> </>) ;
+  const cpasswordlabel = (<>Re-Enter New Password <span className="text-danger"><b>*</b></span> </>) ;
+  const otplabel = (<>Enter the OTP received <span className="text-danger"><b>*</b></span> </>) ;
+  const emaillabel = (<>Enter the registered email <span className="text-danger"><b>*</b></span> </>) ;
+
 
   const PageDisplay = () => {
     if (page === 0) {
       return (
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onUserEntry)}>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 w-75 mx-auto">
               <FloatingLabel
                 className="mb-3"
                 controlId="formUsername"
-                label="Enter Username"
+                label={userlabel}
               >
                 <Form.Control
                   type="text"
@@ -75,83 +54,46 @@ function FormContainer() {
                     pattern: /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/,
                   })}
                 />
-                <OverlayTrigger
-                  trigger="click"
-                  placement="bottom"
-                  overlay={popover}
-                >
-                  <Button variant="none" style={{ marginTop: "0.5em" }}>
-                    <FcInfo style={{ fontSize: "1em" }} />{" "}
-                    <span
-                      className="text-muted"
-                      style={{ fontWeight: "700", fontSize: "0.9em" }}
-                    >
-                      Username Pattern
-                    </span>
-                  </Button>
-                </OverlayTrigger>
+              
                 {errors.username?.type === "pattern" && (
                   <p className="text-danger">
-                    <strong>Please use the valid format of username</strong>
+                    <strong className="text-danger">Please use the valid format of username</strong>
                   </p>
                 )}
                 {errors.username?.type === "required" && (
                   <p className="text-danger">
-                    <strong>Please enter your username</strong>
+                    <strong className="text-danger">Please enter your username</strong>
                   </p>
                 )}
                 {errors.username?.type === "minLength" && (
                   <p className="text-danger">
-                    <strong>
+                    <strong className="text-danger">
                       Username should be minimum 5 characters long
                     </strong>
                   </p>
                 )}
               </FloatingLabel>
             </div>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 w-75 mx-auto">
               <FloatingLabel
                 className="mb-3"
                 controlId="formEmailid"
-                label="Enter Email id"
+                label={emaillabel}
               >
                 <Form.Control type="text" placeholder="Enter Email id" {...register("email", { required: true, pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}/>
                 {errors.email?.type === "pattern" && (
                   <p className="text-danger">
-                    <strong>Please provide a valid email id</strong>
+                    <strong className="text-danger">Please provide a valid email id</strong>
                   </p>
                 )}
                 {errors.email?.type === "required" && (
                   <p className="text-danger">
-                    <strong>Please enter your email id</strong>
+                    <strong className="text-danger">Please enter your email id</strong>
                   </p>
                 )}
               </FloatingLabel>
             </div>
-            <div class="form-outline mb-4">
-              <FloatingLabel
-                className="mb-3"
-                controlId="formPhoneno"
-                label="Enter Phone Number"
-              >
-                <Form.Control type="number" placeholder="Enter Phone number"  {...register("phone", { required: true, minLength: 8, maxLength: 10})}/>
-                {errors.phone?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong>Please provide a valid contact number</strong>
-                  </p>
-                )}
-                {errors.phone?.type === "required" && (
-                  <p className="text-danger">
-                    <strong>Please enter your contact number</strong>
-                  </p>
-                )}
-                {errors.phone?.type === "maxLength" && (
-                  <p className="text-danger">
-                    <strong>Please provide a valid contact number</strong>
-                  </p>
-                )}
-              </FloatingLabel>
-            </div>
+            
             <Button
               //type="submit"
               variant="primary"
@@ -168,11 +110,11 @@ function FormContainer() {
       return (
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onVerifyOtp)}>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 w-75 mx-auto">
               <FloatingLabel
                 className="mb-3"
                 controlId="formotp"
-                label="Enter the OTP"
+                label={otplabel}
               >
                 <Form.Control
                   type="number"
@@ -186,19 +128,19 @@ function FormContainer() {
               </FloatingLabel>
               {errors.otp?.type === "required" && (
                 <p className="text-danger">
-                  <strong>
+                  <strong className="text-danger">
                     Please enter the OTP received in the registered emailid.
                   </strong>
                 </p>
               )}
               {errors.otp?.type === "minLength" && (
                 <p className="text-danger">
-                  <strong>OTP should be minimum 6 characters long</strong>
+                  <strong className="text-danger">OTP should be minimum 6 characters long</strong>
                 </p>
               )}
               {errors.otp?.type === "maxLength" && (
                 <p className="text-danger">
-                  <strong>OTP can be maximum 6 characters long</strong>
+                  <strong className="text-danger">OTP can be maximum 6 characters long</strong>
                 </p>
               )}
             </div>
@@ -219,76 +161,62 @@ function FormContainer() {
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onPasswordSubmit)}>
             <div className="mb-4">
-            <OverlayTrigger
-                  trigger="click"
-                  placement="bottom"
-                  overlay={popoverPass}
-                >
-                  <Button variant="none" style={{ marginTop: "0.5em" }}>
-                    <FcInfo style={{ fontSize: "1em" }} />{" "}
-                    <span
-                      className="text-muted"
-                      style={{ fontWeight: "700", fontSize: "0.9em" }}
-                    >
-                      Allowed Password Pattern
-                    </span>
-                  </Button>
-                </OverlayTrigger>
+            
             </div>
-            <div class="form-outline mb-4">
-              <FloatingLabel className="mb-3 row" controlId="formPassword" label="Enter Password">
+            <div class="form-outline mb-4 w-75 mx-auto">
+              <FloatingLabel className="mb-3 row" controlId="formPassword" label={passwordlabel}>
                 <Form.Control type="password" placeholder="Enter password" {...register("password", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})}/>
                 {errors.password?.type === "pattern" && (
                   <p className="text-danger">
-                    <strong>Please follow the pattern for password</strong>
+                    <strong className="text-danger">Please follow the pattern for password</strong>
                   </p>
                 )}
                 {errors.password?.type === "required" && (
                   <p className="text-danger">
-                    <strong>Please enter your Password</strong>
+                    <strong className="text-danger">Please enter your Password</strong>
                   </p>
                 )}
                 {errors.password?.type === "minLength" && (
                   <p className="text-danger">
-                    <strong>
+                    <strong className="text-danger">
                       Password should be minimum 8 characters long
                     </strong>
                   </p>
                 )}
                 {errors.password?.type === "maxLength" && (
                   <p className="text-danger">
-                    <strong>Password can be maximum 16 characters long</strong>
+                    <strong className="text-danger">Password can be maximum 16 characters long</strong>
                   </p>
                 )}
               </FloatingLabel>
             </div>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 w-75 mx-auto">
               <FloatingLabel
                 className="mb-3 row"
                 controlId="formCpassword"
-                label="Confirm Password"
+                label={cpasswordlabel}
               >
-                <Form.Control type="text" placeholder="Confirm Password" {...register("cpassword", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})}/>
+                <Form.Control type="password" placeholder="Confirm Password" {...register("cpassword", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})}/>
                 {errors.cpassword?.type === "pattern" && (
                   <p className="text-danger">
-                    <strong>Please follow the pattern for password</strong>
+                    <strong className="text-danger">Please follow the pattern for password</strong>
                   </p>
                 )}
                 {errors.cpassword?.type === "required" && (
                   <p className="text-danger">
-                    <strong>Please enter your Password</strong>
+                    <strong className="text-danger">Please enter your Password</strong>
                   </p>
                 )}
                 {errors.cpassword?.type === "minLength" && (
                   <p className="text-danger">
-                    <strong>
+                    <strong className="text-danger">
                       Password should be minimum 8 characters long
                     </strong>
                   </p>
                 )}
                 {errors.cpassword?.type === "maxLength" && (
                   <p className="text-danger">
-                    <strong>Password can be maximum 16 characters long</strong>
+                    <strong className="text-danger">Password can be maximum 16 characters long</strong>
                   </p>
                 )}
               </FloatingLabel>
@@ -341,7 +269,7 @@ function FormContainer() {
   const onVerifyOtp = (userObj) => {
     console.log(userObj["otp"]);
     if (userObj["otp"] === "111111") {
-      alert("OTP entered is correct.User is verified");
+      //alert("OTP entered is correct.User is verified");
       setPage(page + 1);
     } else {
       alert("OTP entered is incorrect");
@@ -390,15 +318,15 @@ function FormContainer() {
   return (
     <>
       <section
-        class="h-100 gradient-form"
+        className= " h-100 gradient-form"
         style={{ background: "rgb(112,218,125)" }}
       >
         <div class="container py-5 h-100">
-          <p className="text-center display-3" style={{ fontWeight: "700" }}>
-            Reset Password
+          <p className="text-center display-5 " style={{ fontWeight: "700", fontFamily : "Libre Baskerville", marginBottom : "50px" }}>
+            Forgot Password
           </p>
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-xl-10">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-xl-6">
               <div
                 class="card rounded-3 text-black"
                 style={{
@@ -408,8 +336,11 @@ function FormContainer() {
                     "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0) 0px 30px 60px -30px, rgba(10, 37, 64) 0px -2px 6px 0px inset",
                 }}
               >
-                <div class="col-lg-12 ">
+                
+                <div class="col-lg-12">
+                  
                   <div class="card-body p-md-5 mx-md-4">
+                  <p className="text-secondary" style={{fontSize : "15px"}}><span className="text-danger"><b>*</b></span> Mandatory Fields</p>
                     {PageDisplay()}
                     {/* <Button
                       variant="primary"
@@ -425,7 +356,7 @@ function FormContainer() {
                       disabled={page == 2}
                       onClick={() => setPage(page + 1)}
                     >
-                      <strong className="text-white">Next</strong>
+                      <strong className="text-danger" className="text-white">Next</strong>
                     </Button> */}
                   </div>
                 </div>

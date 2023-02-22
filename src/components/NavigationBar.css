@@ -18,3 +18,14 @@ h1 {
     width: 30%;
 }
 
+a.nav-link , .nav-item{
+    border-right: 1px solid #999;
+  }
+
+  a.nav-link:last-child{
+    border: none;
+ }
+
+ nav.navbar-light {
+    border-bottom: 1px solid #999;
+ }

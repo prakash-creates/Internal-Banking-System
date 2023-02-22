@@ -11,6 +11,11 @@
     text-shadow: 0 1px 1px #fff;
 }
 
+.right-part-section h3
+{
+    font-family: 'Libre Baskerville', serif;
+}
+
 .subtext
 {
     font-style: normal; 
@@ -36,13 +41,7 @@
 }
 
     
-@media (min-width: 768px) 
-{
-    .gradient-form 
-    {
-        height: 100vh !important;
-    }
-}
+
 
 @media (max-width: 993px)
 {

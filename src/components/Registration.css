@@ -1,0 +1,64 @@
+/* body {
+  background: #bdc3c7; 
+  background: -webkit-linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); 
+  background: linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  );
+} */
+.Admin-registration {
+    display: flex;
+    flex-direction: row;
+    background-color: #0c4978;
+    padding-top: 30px;
+    padding-left: 1%;
+    padding-right: 2%;
+  }
+  
+  .Admin-registration .form {
+    background-color: white;
+    border-radius: 5px;
+    width: 550px;
+    margin: 10px auto;
+    padding: 10px;
+    height: 600px;
+  }
+  
+  .Admin-registration .form-body {
+    text-align: left;
+    padding: 6px 10px;
+  }
+  
+  .Admin-registration .form-body > * {
+    padding: 5px;
+  }
+  
+  .Admin-registration .form__label {
+    width: 40%;
+    font-weight: bold;
+    color: #093d65;
+  }
+  
+  .Admin-registration .form__input {
+    width: 50%;
+    transition: 180ms box-shadow ease-in-out;
+    border: 1.75px solid #093d65;
+  }
+  
+  .Admin-registration .footer {
+    text-align: center;
+  }
+  
+  .Admin-registration .form__input:focus {
+    border-color: hsl(
+      var(--input-focus-h),
+      var(--input-focus-s),
+      var(--input-focus-l)
+    );
+    outline: 5px solid transparent;
+  }

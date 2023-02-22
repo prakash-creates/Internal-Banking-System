@@ -19,6 +19,17 @@ function Homepage()
 
     return(
         <>
+        <div className="welcome-message">
+        {localStorage.isLoggedIn && localStorage.isLoggedIn === "true" ? (
+            <> <h3>Hello <span className="welcome-name">{localStorage.username}</span>, Welcome to IBS portal.</h3></>
+        ) : (
+            <>
+            <h3>
+                Welcome to IBS portal.
+                </h3>
+            </>
+        ) }
+        </div>
             {/* First Section Start */}
             <div className="first-section">
                 <div className="first-section-left">
@@ -70,7 +81,7 @@ function Homepage()
                 <div className="first-section-right">
                     <h1 className="name-head">Internal Banking Systems &#40; IBS &#41;</h1>
                     <p className="subtext">Your true banking solutions.</p>
-                    <p className="name-subhead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    <p className="name-subhead">Your one and only stop to get the best interest rates for all loans . We believe in getting you the best financial deals in the market . We are not just bankers but your personal financial advisors .</p>
                     
                 </div>
             </div>

@@ -11,39 +11,11 @@ import axios from "axios";
 function Login()
 {
 
-    const popover = (
-        <Popover id="username-popover">
-        <Popover.Header as="h3">Username - Allowed patterns</Popover.Header>
-        <Popover.Body>
-            <ul>
-                <li>Alphabets, numbers and underscore ( _ ) only.</li>
-                <li>Should start with alphabet only.</li>
-                <li>Cannot end with underscore ( _ ).</li>
-                <li>Minimum length = 5 characters</li>
-            </ul>
-        </Popover.Body>
-        </Popover>
-    );
-
-    const popoverPass = (
-        <Popover id="password-popover">
-        <Popover.Header as="h3">Password - Allowed patterns</Popover.Header>
-        <Popover.Body>
-            <ul>
-                <li>Alphanumeric characters only.</li>
-                <li>At least 1 uppercase letter.</li>
-                <li>At least 1 lowercase letter.</li>
-                <li>At least 1 number.</li>
-                <li>Minimum length = 8 characters</li>
-                <li>Maximum length = 16 characters</li>
-            </ul>
-        </Popover.Body>
-        </Popover>
-    );
-
+    const userlabel = (<>Enter Username <span className="text-danger"><b>*</b></span> </>) ;
+    const passwordlabel = (<>Enter Password <span className="text-danger"><b>*</b></span> </>) ;
     
 
-       /* const dispatch = useDispatch();
+        /* const dispatch = useDispatch();
         const navigate = useNavigate();*/
 
         const {
@@ -71,8 +43,15 @@ function Login()
                     console.log(res.data);
                     localStorage.demo = res.data["authenticationToken"];
                     localStorage.username = userObj["username"];
-                    window.location = "/";
-                    alert("Login Successful");
+                    localStorage.password = userObj["password"];
+                    if (localStorage.username === "Admin"){
+                        window.location = "/adminhome";
+                    }
+                    else{
+                        window.location = "/";
+
+                    }
+                    //alert("Login Successful");
                 })
                 .catch((e) => {
                     console.log(e);
@@ -104,52 +83,48 @@ function Login()
                                 <p className="subtext">Your true banking solutions.</p>
                             </div>
                             <h4 class="mb-4">We are more than just a bank.</h4>
-                            <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <p class="small mb-0">Your one and only stop to get the best interest rates for all loans . We believe in getting you the best financial deals in the market . We are not just bankers but your personal financial advisors .</p>
                         </div>
                         </div>
                         <div class="col-lg-6 right-part-section">
                         <div class="card-body p-md-5 mx-md-4">
+                        
+                            
 
                         <h3 style={{"marginBottom" : "1.3rem"}}>Sign In</h3>
+                        <span className="text-secondary my-3" style={{fontSize : "15px"}}><span className="text-danger"><b>*</b></span> Mandatory Fields</span>
                             <Form onSubmit={handleSubmit(onFormSubmit)}>
 
-                            <div className="form-outline mb-4">
-                                <FloatingLabel className="mb-3 row" controlId="formUsername" label="Enter Username">
+                            <div className="form-outline mb-4 mt-2 mx-auto w-75">
+                                <FloatingLabel className="mb-3 row" controlId="formUsername" label={userlabel}>
                                     <Form.Control type="text" placeholder="Enter username" {...register("username", {required: true, minLength: 5, pattern: /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/})} />
-                                    <OverlayTrigger trigger="click" placement="bottom" overlay={popover}>
-                                        <Button variant="none" style={{"marginTop" : "0.5em"}}><FcInfo style={{"fontSize" : "1em"}}/>  <span className="text-muted" style={{"fontWeight" : "700", "fontSize" : "0.9em"}}>Username Pattern</span></Button>
-                                    </OverlayTrigger>
-                                    {errors.username?.type === "pattern" && (<p className="text-danger"><strong>Please use the valid format of username</strong></p>)}
-                                    {errors.username?.type === "required" && (<p className="text-danger"><strong>Please enter your username</strong></p>)}
-                                    {errors.username?.type === "minLength" && (<p className="text-danger"><strong>Username should be minimum 5 characters long</strong></p>)}
+                                    {errors.username?.type === "pattern" && (<p className="text-danger"><strong className="text-danger">Please use the valid format of username</strong></p>)}
+                                    {errors.username?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter your username</strong></p>)}
+                                    {errors.username?.type === "minLength" && (<p className="text-danger"><strong className="text-danger">Username should be minimum 5 characters long</strong></p>)}
                                 </FloatingLabel>
                             </div>
 
-                            <div className="form-outline">
-                                <FloatingLabel className="mb-3 row" controlId="formPassword" label="Enter Password">
+                            <div className="form-outline mx-auto w-75">
+                                <FloatingLabel className="mb-3 row" controlId="formPassword" label={passwordlabel}>
                                     <Form.Control type="password" placeholder="Enter password" {...register("password", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})} />
-                                    <OverlayTrigger trigger="click" placement="bottom" overlay={popoverPass}>
-                                        <Button variant="none" style={{"marginTop" : "0.5em"}}><FcInfo style={{"fontSize" : "1em"}}/>  <span className="text-muted" style={{"fontWeight" : "700", "fontSize" : "0.9em"}}>Allowed Password Pattern</span></Button>
-                                    </OverlayTrigger>
-                                    {errors.userpassword?.type === "pattern" && (<p className="text-danger"><strong>Please follow the pattern for password</strong></p>)}
-                                    {errors.userpassword?.type === "required" && (<p className="text-danger"><strong>Please enter your Password</strong></p>)}
-                                    {errors.userpassword?.type === "minLength" && (<p className="text-danger"><strong>Password should be minimum 8 characters long</strong></p>)}
-                                    {errors.userpassword?.type === "maxLength" && (<p className="text-danger"><strong>Password can be maximum 16 characters long</strong></p>)}
+                                    {errors.password?.type === "pattern" && (<p className="text-danger"><strong className="text-danger">Please follow the pattern for password</strong></p>)}
+                                    {errors.password?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter your Password</strong></p>)}
+                                    {errors.password?.type === "minLength" && (<p className="text-danger"><strong className="text-danger">Password should be minimum 8 characters long</strong></p>)}
+                                    {errors.password?.type === "maxLength" && (<p className="text-danger"><strong className="text-danger">Password can be maximum 16 characters long</strong></p>)}
                                 </FloatingLabel>
                             </div>
 
-                            <div class="text-center pt-1 mb-5 pb-1">
-                               <Link to = "/forgotpassword">  <p className="text-secondary h6">Forgot Password ?</p></Link>
+                            <div class="text-center pt-1 pb-1">
+                                <Link to = "/forgotpassword"  style={{"textDecoration" : "none"}}>  <p className="text-primary h6 mb-4" style={{"textDecoration" : "none"}}>Forgot Password ?</p></Link>
                                 <Button variant="primary" type="submit" style={{"width" : "30%"}}> <strong className="text-white">Log In</strong> </Button>
                             </div>
                     {/*
                             <div class="d-flex align-items-center justify-content-center pb-4">
                                 <p class="mb-0 me-2">Don't have an account?</p>
-                                <button type="button" class="btn btn-outline-danger"><strong>Create new</button>
+                                <button type="button" class="btn btn-outline-danger"><strong className="text-danger">Create new</button>
                             </div>
                     */}
+                    
 
                             </Form>
 

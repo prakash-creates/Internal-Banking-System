@@ -1,6 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
 
+.welcome-message
+{
+    border-top: 1px dashed #999;
+    font-family: 'Libre Baskerville';
+    height: 5em;
+    padding-top: 20px;
+    background-color: rgb(225, 241, 254);
+}
+
+.welcome-message h3
+{
+    color: #000;
+    
+}
+
+.welcome-name
+{
+    color: #d54d7b;
+}
+
 .first-section
 {
     display: flex;
