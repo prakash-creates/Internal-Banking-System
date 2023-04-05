@@ -106,10 +106,15 @@ function AdminViewloan() {
   
   const counter = useRef(0);
 
+  const alive = useRef(false);
+
+  
+  const [dup , setDup] = useState(0);
+
+  
   const [data, setLoanData] = useState([]); //To change this for backend integrations.
 
   /* Dividing the loan records based on loan type */
-
   const [homeloanData, setHomeloanData] = useState([]);
   const [personalloanData, setPersonalloanData] = useState([]);
   const [educationloanData, setEducationloanData] = useState([]);
@@ -250,9 +255,10 @@ function AdminViewloan() {
   //     return () => clearTimeout(timer);
   //   }
   // }, [data]);
-
-
-  useEffect(() => {
+ 
+  
+  const refresh = () => {
+    
     console.log(data);
 
     var edu = [];
@@ -279,9 +285,10 @@ function AdminViewloan() {
     setEducationloanData(edu);
     setHomeloanData(home);
     setPersonalloanData(pers);
-} , []);
+    
+} 
   //To define the data to be shown in modal
-
+  
   const [modalData, setModalData] = useState({});
 
   const onButtonClick = (someObj) => {
@@ -381,6 +388,7 @@ function AdminViewloan() {
               </div>
             </Form>
           </div>
+          <Button id="reload" className="reload md-3" type="button" onClick={refresh}>Load Records</Button>
           {status === 1 && (
             <div
               className="table-responsive container"

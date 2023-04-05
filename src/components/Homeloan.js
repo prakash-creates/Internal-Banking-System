@@ -53,7 +53,35 @@ function Homeloan()
     );
 
     const [loanid, setLoanid]=useState({});
+    const [maxAmt, setMaxAmt] = useState(10000000);
 
+
+    useEffect(() => {
+        var role_one = ["Programmer Analyst Trainee", "Programmer Analyst", "Associate"];
+        var role_two = ["Sr. Manager ", "Sr. Associate", "Manager"];
+        var role_three = ["Associate Director", "Director"];
+        var role_four= ["Sr. Director", "Vice President"];
+    
+       
+        if (role_one.indexOf(localStorage.designation) !== -1)
+        {
+            setMaxAmt(2500000);
+        }
+        if (role_two.indexOf(localStorage.designation) !== -1)
+        {
+            setMaxAmt(5000000);
+        }
+        if (role_three.indexOf(localStorage.designation) !== -1)
+        {
+            setMaxAmt(7500000);
+        }
+        if (role_four.indexOf(localStorage.designation) !== -1)
+        {
+            setMaxAmt(10000000);
+        }
+    })
+    
+   
     const {
         register,
         handleSubmit,
@@ -107,8 +135,12 @@ function Homeloan()
             })
             .catch((e) => {
                 console.log(e.response.data);
+                console.log(e.response.data.message);
                 console.log(e);
-                alert("Cannot apply for the loan");
+                if(e.response.data.message === "Maximum limit exceeded")
+                    alert("Loan amount exceeds the maximum limit!! You are not eligible to apply for any more loans.");
+                else
+                    alert("Failed to apply loan");
             });
     };
 
@@ -158,11 +190,11 @@ function Homeloan()
 
                         <Col md='10' className='mx-auto'>
                             <FloatingLabel controlId="formAmount" label={loanamtlabel}>
-                                <Form.Control type="number" placeholder="Enter Amount"  {...register("amount", {required: true, min: 100000, max: 10000000})} />
+                                <Form.Control type="number" placeholder="Enter Amount"  {...register("amount", {required: true, min: 100000, max: maxAmt})} />
                             </FloatingLabel>
                             {errors.amount?.type === "required" && (<p className="text-danger"><strong className="text-danger">Please enter the loan amount</strong></p>)}
                             {errors.amount?.type === "min" && (<p className="text-danger"><strong className="text-danger">Loan can be issued for an amount of 1,00,000 and above</strong></p>)}
-                            {errors.amount?.type === "max" && (<p className="text-danger"><strong className="text-danger">Loan can be issued for a maximum value of 1,00,00,000</strong></p>)}
+                            {errors.amount?.type === "max" && (<p className="text-danger"><strong className="text-danger">Loan can be issued for a maximum value of {maxAmt}</strong></p>)}
                         </Col>
 
                     </Form.Group>

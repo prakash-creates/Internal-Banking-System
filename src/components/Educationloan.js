@@ -63,6 +63,33 @@ function Educationloan() {
     </>
   );
   const [loanid, setLoanid] = useState({});
+  const [maxAmt, setMaxAmt] = useState(10000000);
+
+
+  useEffect(() => {
+      var role_one = ["Programmer Analyst Trainee", "Programmer Analyst", "Associate"];
+      var role_two = ["Sr. Manager ", "Sr. Associate", "Manager"];
+      var role_three = ["Associate Director", "Director"];
+      var role_four= ["Sr. Director", "Vice President"];
+  
+     
+      if (role_one.indexOf(localStorage.designation) !== -1)
+      {
+          setMaxAmt(2500000);
+      }
+      if (role_two.indexOf(localStorage.designation) !== -1)
+      {
+          setMaxAmt(5000000);
+      }
+      if (role_three.indexOf(localStorage.designation) !== -1)
+      {
+          setMaxAmt(7500000);
+      }
+      if (role_four.indexOf(localStorage.designation) !== -1)
+      {
+          setMaxAmt(10000000);
+      }
+  })
 
   const {
     register,
@@ -125,7 +152,7 @@ function Educationloan() {
       .catch((e) => {
         console.log(e.response.data);
         console.log(e);
-        alert("Cannot apply for the loan");
+        alert(e.response.data.message);
       });
   };
 
@@ -193,7 +220,7 @@ function Educationloan() {
                             {...register("amount", {
                               required: true,
                               min: 100000,
-                              max: 10000000,
+                              max: maxAmt,
                             })}
                           />
                         </FloatingLabel>
@@ -214,7 +241,7 @@ function Educationloan() {
                           <p className="text-danger">
                             <strong className="text-danger">
                               Loan can be issued for a maximum value of
-                              1,00,00,000
+                              {maxAmt}
                             </strong>
                           </p>
                         )}

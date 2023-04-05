@@ -48,6 +48,10 @@ export default function NavigationBar() {
         })
         .then((res) => {
           setUserDetails(res.data);
+          
+          localStorage.designation = res.data.designation;
+          
+      
         });
     },
     []
