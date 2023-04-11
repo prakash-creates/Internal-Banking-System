@@ -174,6 +174,34 @@ function Login() {
                         </div>
 
                         <div className="form-outline mx-auto w-75">
+                          {errors.password?.type === "pattern" && (
+                            <p className="text-danger">
+                              <strong className="text-danger">
+                                Please follow the pattern for password
+                              </strong>
+                            </p>
+                          )}
+                          {errors.password?.type === "required" && (
+                            <p className="text-danger">
+                              <strong className="text-danger">
+                                Please enter your Password
+                              </strong>
+                            </p>
+                          )}
+                          {errors.password?.type === "minLength" && (
+                            <p className="text-danger">
+                              <strong className="text-danger">
+                                Password should be minimum 8 characters long
+                              </strong>
+                            </p>
+                          )}
+                          {errors.password?.type === "maxLength" && (
+                            <p className="text-danger">
+                              <strong className="text-danger">
+                                Password can be maximum 16 characters long
+                              </strong>
+                            </p>
+                          )}
                           <FloatingLabel
                             className="mb-3 row"
                             controlId="formPassword"
@@ -190,34 +218,6 @@ function Login() {
                                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                               })}
                             />
-                            {errors.password?.type === "pattern" && (
-                              <p className="text-danger">
-                                <strong className="text-danger">
-                                  Please follow the pattern for password
-                                </strong>
-                              </p>
-                            )}
-                            {errors.password?.type === "required" && (
-                              <p className="text-danger">
-                                <strong className="text-danger">
-                                  Please enter your Password
-                                </strong>
-                              </p>
-                            )}
-                            {errors.password?.type === "minLength" && (
-                              <p className="text-danger">
-                                <strong className="text-danger">
-                                  Password should be minimum 8 characters long
-                                </strong>
-                              </p>
-                            )}
-                            {errors.password?.type === "maxLength" && (
-                              <p className="text-danger">
-                                <strong className="text-danger">
-                                  Password can be maximum 16 characters long
-                                </strong>
-                              </p>
-                            )}
                           </FloatingLabel>
                         </div>
 
