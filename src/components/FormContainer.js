@@ -8,12 +8,10 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Footer from "./Footer";
-import {useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 
 import { FcInfo } from "react-icons/fc";
-
-
 
 function FormContainer() {
   const {
@@ -27,12 +25,46 @@ function FormContainer() {
   const [page, setPage] = useState(0);
   console.log(page);
 
-  const userlabel = (<>Enter Username <span className="text-danger"><b>*</b></span> </>) ;
-  const passwordlabel = (<>Enter New Password <span className="text-danger"><b>*</b></span> </>) ;
-  const cpasswordlabel = (<>Re-Enter New Password <span className="text-danger"><b>*</b></span> </>) ;
-  const otplabel = (<>Enter the OTP received <span className="text-danger"><b>*</b></span> </>) ;
-  const emaillabel = (<>Enter the registered email <span className="text-danger"><b>*</b></span> </>) ;
-
+  const userlabel = (
+    <>
+      Enter Username{" "}
+      <span className="text-danger">
+        <b>*</b>
+      </span>{" "}
+    </>
+  );
+  const passwordlabel = (
+    <>
+      Enter New Password{" "}
+      <span className="text-danger">
+        <b>*</b>
+      </span>{" "}
+    </>
+  );
+  const cpasswordlabel = (
+    <>
+      Re-Enter New Password{" "}
+      <span className="text-danger">
+        <b>*</b>
+      </span>{" "}
+    </>
+  );
+  const otplabel = (
+    <>
+      Enter the OTP received{" "}
+      <span className="text-danger">
+        <b>*</b>
+      </span>{" "}
+    </>
+  );
+  const emaillabel = (
+    <>
+      Enter the registered email{" "}
+      <span className="text-danger">
+        <b>*</b>
+      </span>{" "}
+    </>
+  );
 
   const PageDisplay = () => {
     if (page === 0) {
@@ -40,6 +72,27 @@ function FormContainer() {
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onUserEntry)}>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.username?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please use the valid format of username
+                  </strong>
+                </p>
+              )}
+              {errors.username?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your username
+                  </strong>
+                </p>
+              )}
+              {errors.username?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Username should be minimum 5 characters long
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3"
                 controlId="formUsername"
@@ -54,46 +107,39 @@ function FormContainer() {
                     pattern: /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/,
                   })}
                 />
-              
-                {errors.username?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please use the valid format of username</strong>
-                  </p>
-                )}
-                {errors.username?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please enter your username</strong>
-                  </p>
-                )}
-                {errors.username?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Username should be minimum 5 characters long
-                    </strong>
-                  </p>
-                )}
               </FloatingLabel>
             </div>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.email?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please provide a valid email id
+                  </strong>
+                </p>
+              )}
+              {errors.email?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your email id
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3"
                 controlId="formEmailid"
                 label={emaillabel}
               >
-                <Form.Control type="text" placeholder="Enter Email id" {...register("email", { required: true, pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/})}/>
-                {errors.email?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please provide a valid email id</strong>
-                  </p>
-                )}
-                {errors.email?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please enter your email id</strong>
-                  </p>
-                )}
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Email id"
+                  {...register("email", {
+                    required: true,
+                    pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                  })}
+                />
               </FloatingLabel>
             </div>
-            
+
             <Button
               //type="submit"
               variant="primary"
@@ -111,6 +157,27 @@ function FormContainer() {
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onVerifyOtp)}>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.otp?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter the OTP received in the registered emailid.
+                  </strong>
+                </p>
+              )}
+              {errors.otp?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    OTP should be minimum 6 characters long
+                  </strong>
+                </p>
+              )}
+              {errors.otp?.type === "maxLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    OTP can be maximum 6 characters long
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3"
                 controlId="formotp"
@@ -126,23 +193,6 @@ function FormContainer() {
                   })}
                 />
               </FloatingLabel>
-              {errors.otp?.type === "required" && (
-                <p className="text-danger">
-                  <strong className="text-danger">
-                    Please enter the OTP received in the registered emailid.
-                  </strong>
-                </p>
-              )}
-              {errors.otp?.type === "minLength" && (
-                <p className="text-danger">
-                  <strong className="text-danger">OTP should be minimum 6 characters long</strong>
-                </p>
-              )}
-              {errors.otp?.type === "maxLength" && (
-                <p className="text-danger">
-                  <strong className="text-danger">OTP can be maximum 6 characters long</strong>
-                </p>
-              )}
             </div>
             <Button
               //type="submit"
@@ -160,65 +210,97 @@ function FormContainer() {
       return (
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onPasswordSubmit)}>
-            <div className="mb-4">
-            
-            </div>
+            <div className="mb-4"></div>
             <div class="form-outline mb-4 w-75 mx-auto">
-              <FloatingLabel className="mb-3 row" controlId="formPassword" label={passwordlabel}>
-                <Form.Control type="password" placeholder="Enter password" {...register("password", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})}/>
-                {errors.password?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please follow the pattern for password</strong>
-                  </p>
-                )}
-                {errors.password?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please enter your Password</strong>
-                  </p>
-                )}
-                {errors.password?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password should be minimum 8 characters long
-                    </strong>
-                  </p>
-                )}
-                {errors.password?.type === "maxLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Password can be maximum 16 characters long</strong>
-                  </p>
-                )}
+              {errors.password?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please follow the pattern for password
+                  </strong>
+                </p>
+              )}
+              {errors.password?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your Password
+                  </strong>
+                </p>
+              )}
+              {errors.password?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password should be minimum 8 characters long
+                  </strong>
+                </p>
+              )}
+              {errors.password?.type === "maxLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password can be maximum 16 characters long
+                  </strong>
+                </p>
+              )}
+              <FloatingLabel
+                className="mb-3 row"
+                controlId="formPassword"
+                label={passwordlabel}
+              >
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  {...register("password", {
+                    required: true,
+                    minLength: 8,
+                    maxLength: 16,
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                  })}
+                />
               </FloatingLabel>
             </div>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.cpassword?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please follow the pattern for password
+                  </strong>
+                </p>
+              )}
+              {errors.cpassword?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your Password
+                  </strong>
+                </p>
+              )}
+              {errors.cpassword?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password should be minimum 8 characters long
+                  </strong>
+                </p>
+              )}
+              {errors.cpassword?.type === "maxLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password can be maximum 16 characters long
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3 row"
                 controlId="formCpassword"
                 label={cpasswordlabel}
               >
-                <Form.Control type="password" placeholder="Confirm Password" {...register("cpassword", {required: true, minLength: 8, maxLength: 16, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/})}/>
-                {errors.cpassword?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please follow the pattern for password</strong>
-                  </p>
-                )}
-                {errors.cpassword?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Please enter your Password</strong>
-                  </p>
-                )}
-                {errors.cpassword?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password should be minimum 8 characters long
-                    </strong>
-                  </p>
-                )}
-                {errors.cpassword?.type === "maxLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">Password can be maximum 16 characters long</strong>
-                  </p>
-                )}
+                <Form.Control
+                  type="password"
+                  placeholder="Confirm Password"
+                  {...register("cpassword", {
+                    required: true,
+                    minLength: 8,
+                    maxLength: 16,
+                    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                  })}
+                />
               </FloatingLabel>
             </div>
             <Button
@@ -236,9 +318,9 @@ function FormContainer() {
     }
   };
   const onUserEntry = (userObj) => {
-      console.log(userObj["username"]);
-      setUsername(userObj["username"]);
-   /*  setPage(1);
+    console.log(userObj["username"]);
+    setUsername(userObj["username"]);
+    /*  setPage(1);
     //console.log(userObj["username"]);
     alert("User Available");
     setUsername(userObj["username"]);
@@ -246,9 +328,9 @@ function FormContainer() {
     console.log(username);
     console.log(page);
  */
-     axios
+    axios
       .post("http://localhost:8083/api/auth/usernamecheck", {
-        userName: userObj["username"]
+        userName: userObj["username"],
         //password: userObj["password"]
       })
       .then((res) => {
@@ -264,7 +346,7 @@ function FormContainer() {
       .catch((e) => {
         console.log(e.response.data);
         alert("User not available.");
-      }); 
+      });
   };
   const onVerifyOtp = (userObj) => {
     console.log(userObj["otp"]);
@@ -282,47 +364,50 @@ function FormContainer() {
     console.log(userObj["cpassword"]);
     console.log("This is username" + usernameValue);
 
-     if(userObj["password"] === userObj["cpassword"])
-     {
+    if (userObj["password"] === userObj["cpassword"]) {
       axios
-      .put("http://localhost:8083/api/auth/reset", {
-        //userName: userObj["username"],
-        userName : usernameValue,
-        password: userObj["password"]
-      })
-      .then((res) => {
-        console.log(res);
-        //localStorage.token = `Bearer ${res.data.jwttoken}`;
-       // setUsername(userObj["username"]);
-        //localStorage.isLoggedIn = true;
-        localStorage.username = userObj["username"];
-        //window.location = "/";
-        alert("Password changed successfully");
-        window.location = "/login";
-      })
-      .catch((e) => {
-        console.log(e.response.data);
-        alert("Password could not be changed , some error occured");
-        setPage(0);
-      });
-     }
-     else
-     {
-      alert("Passwords don't match")
-     } 
-    
-    setPassword(userObj["password"]);
+        .put("http://localhost:8083/api/auth/reset", {
+          //userName: userObj["username"],
+          userName: usernameValue,
+          password: userObj["password"],
+        })
+        .then((res) => {
+          console.log(res);
+          //localStorage.token = `Bearer ${res.data.jwttoken}`;
+          // setUsername(userObj["username"]);
+          //localStorage.isLoggedIn = true;
+          localStorage.username = userObj["username"];
+          //window.location = "/";
+          alert("Password changed successfully");
+          window.location = "/login";
+        })
+        .catch((e) => {
+          console.log(e.response.data);
+          alert("Password could not be changed , some error occured");
+          setPage(0);
+        });
+    } else {
+      alert("Passwords don't match");
+    }
 
+    setPassword(userObj["password"]);
   };
 
   return (
     <>
       <section
-        className= " h-100 gradient-form"
+        className=" h-100 gradient-form"
         style={{ background: "rgb(112,218,125)" }}
       >
         <div class="container py-5 h-100">
-          <p className="text-center display-5 " style={{ fontWeight: "700", fontFamily : "Libre Baskerville", marginBottom : "50px" }}>
+          <p
+            className="text-center display-5 "
+            style={{
+              fontWeight: "700",
+              fontFamily: "Libre Baskerville",
+              marginBottom: "50px",
+            }}
+          >
             Forgot Password
           </p>
           <div class="row d-flex justify-content-center align-items-center">
@@ -336,11 +421,14 @@ function FormContainer() {
                     "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0) 0px 30px 60px -30px, rgba(10, 37, 64) 0px -2px 6px 0px inset",
                 }}
               >
-                
                 <div class="col-lg-12">
-                  
                   <div class="card-body p-md-5 mx-md-4">
-                  <p className="text-secondary" style={{fontSize : "15px"}}><span className="text-danger"><b>*</b></span> Mandatory Fields</p>
+                    <p className="text-secondary" style={{ fontSize: "15px" }}>
+                      <span className="text-danger">
+                        <b>*</b>
+                      </span>{" "}
+                      Mandatory Fields
+                    </p>
                     {PageDisplay()}
                     {/* <Button
                       variant="primary"

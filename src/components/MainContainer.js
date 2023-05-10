@@ -95,6 +95,24 @@ function MainContainer() {
                 </Carousel.Caption>
               </Carousel.Item>
             </Carousel> */}
+            <div className="welcome-message-admin">
+              {localStorage.isLoggedIn && localStorage.isLoggedIn === "true" ? (
+                <>
+                  {" "}
+                  <h3>
+                    Hello{" "}
+                    <span className="welcome-name-admin">
+                      {localStorage.username}
+                    </span>
+                    , Welcome to IBS portal.
+                  </h3>
+                </>
+              ) : (
+                <>
+                  <h3>Welcome to IBS portal.</h3>
+                </>
+              )}
+            </div>
             <img src="http://schoolonedtech.com/e-learning/images/admin.jpg" />
           </div>
           <div className="admin-first-section-right">

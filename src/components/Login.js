@@ -137,7 +137,9 @@ function Login() {
                           {errors.username?.type === "pattern" && (
                             <p className="text-danger">
                               <strong className="text-danger">
-                                Please use the valid format of username
+                                Can only have alphabets, numbers and
+                                underscores. Should have a capital letter.
+                                Should start with alphabet.
                               </strong>
                             </p>
                           )}

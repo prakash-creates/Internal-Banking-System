@@ -15,8 +15,7 @@ import AdminViewloan from "./components/AdminViewloan";
 import Modifyinterest from "./components/Modifyinterest";
 import Menu from "./components/Menu";
 import Resetpassword from "./components/Resetpassword";
-import About from "./components/About"; 
-
+import About from "./components/About";
 export default function App() {
   axios.defaults.headers.common["Authorization"] = `${localStorage.token}`;
 
@@ -26,14 +25,12 @@ export default function App() {
 
       {/* //To paste user welcome message */}
       <Routes>
-      
-
         {localStorage.isLoggedIn && localStorage.isLoggedIn === "true" ? (
           <Fragment>
             <Route path="/" element={<Homepage />} />
             <Route path="/applyloan" element={<Applyloan />} />
             <Route path="/viewloan" element={<Viewloan />} />
-            <Route path="/resetpass" element={<Resetpassword/>}/>
+            <Route path="/resetpass" element={<Resetpassword />} />
           </Fragment>
         ) : (
           <Fragment>
@@ -48,14 +45,13 @@ export default function App() {
             <Route path="/register" element={<Registration />} />
             <Route path="/adminviewloan" element={<AdminViewloan />} />
             <Route path="/modify" element={<Modifyinterest />} />
-
           </Fragment>
         )}
 
         {localStorage.username === "Admin" &&
         localStorage.isLoggedIn === "true" ? (
           <Fragment>
-          {/* <Route path="/adminhome" element={<Container />} /> */}
+            {/* <Route path="/adminhome" element={<Container />} /> */}
             <Route path="/adminhome" element={<Container />} />
             <Route path="/container" element={<Container />} />
             <Route path="/register" element={<Registration />} />
@@ -65,7 +61,7 @@ export default function App() {
         ) : (
           <Route path="/" element={<Homepage />} />
         )}
-  
+
         <Route path="/about" element={<About />} />
       </Routes>
     </div>

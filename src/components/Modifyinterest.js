@@ -106,6 +106,12 @@ function Modifyinterest() {
                       controlId="formBasicLoanType"
                     >
                       <Col md="10" className="mx-auto mt-3">
+                        {errors.loantype?.type === "required" && (
+                          <p className="text-danger">
+                            {" "}
+                            <strong>Please select a loan type</strong>{" "}
+                          </p>
+                        )}
                         <FloatingLabel
                           className="mb-1"
                           controlId="formLoanType"
@@ -126,12 +132,6 @@ function Modifyinterest() {
                             </option>
                           </Form.Select>
                         </FloatingLabel>
-                        {errors.loantype?.type === "required" && (
-                          <p className="text-danger">
-                            {" "}
-                            <strong>Please select a loan type</strong>{" "}
-                          </p>
-                        )}
                       </Col>
                     </Form.Group>
                   </Row>
@@ -139,21 +139,6 @@ function Modifyinterest() {
                   <Row className="align-items-center pt-4">
                     <Form.Group className="mb-3" controlId="formBasicRate">
                       <Col md="10" className="mx-auto mt-3">
-                        <FloatingLabel
-                          className="mb-3"
-                          controlId="formTenure"
-                          label={roilabel}
-                        >
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter Rate"
-                            {...register("interest", {
-                              required: true,
-                              min: 8,
-                              max: 25,
-                            })}
-                          />
-                        </FloatingLabel>
                         {errors.interestrate?.type === "required" && (
                           <p className="text-danger">
                             {" "}
@@ -176,6 +161,21 @@ function Modifyinterest() {
                             </strong>{" "}
                           </p>
                         )}
+                        <FloatingLabel
+                          className="mb-3"
+                          controlId="formTenure"
+                          label={roilabel}
+                        >
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter Rate"
+                            {...register("interest", {
+                              required: true,
+                              min: 8,
+                              max: 25,
+                            })}
+                          />
+                        </FloatingLabel>
                       </Col>
                     </Form.Group>
                   </Row>
