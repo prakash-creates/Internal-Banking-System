@@ -179,7 +179,8 @@ function Viewloan() {
       .then((res) => {
         console.log(res);
         changeState();
-        alert("Loan details modified successfully");
+        setShow(false);
+       // alert("Loan details modified successfully");
       })
       .catch((e) => {
         console.log(e.response.data);
@@ -193,7 +194,7 @@ function Viewloan() {
     setEditable(!editable);
   }
 
-  useEffect(() => {
+  const loadData = () => {
     axios
       .get("http://localhost:8083/userLoan/" + localStorage.username, {
         headers: {
@@ -237,7 +238,7 @@ function Viewloan() {
     setEducationloanData(edu);
     setHomeloanData(home);
     setPersonalloanData(pers);
-  }, [data]);
+  };
 
   useEffect(() => {
     console.log(data);
@@ -358,6 +359,14 @@ function Viewloan() {
             </div>
           </Form>
         </div>
+        <Button
+            id="reload"
+            className="reload mb-3"
+            type="button"
+            onClick={loadData}
+          >
+            Update Records
+          </Button>
         {status === 1 && (
           <div
             className="table-responsive container"
@@ -394,11 +403,11 @@ function Viewloan() {
                 <tr>
                   <th>#</th>
                   <th style={{ width: "20em" }}>Loan Id</th>
-                  <th style={{ width: "20em" }}>Loan Type</th>
                   <th style={{ width: "20em" }}>Loan Amount</th>
                   <th style={{ width: "20em" }}>Loan Tenure</th>
                   <th style={{ width: "20em" }}>Expected Monthly EMI</th>
                   <th style={{ width: "20em" }}>Apply Date</th>
+                  <th style={{ width: "20em" }}>Loan End Date</th>
                   <th style={{ width: "20em" }}>Property Address</th>
                   <th style={{ width: "5em" }}>
                     <FaEdit size={20} />
@@ -410,7 +419,7 @@ function Viewloan() {
                   <tr key={i} style={{ fontWeight: "600", fontSize: "16px" }}>
                     <td>{i + 1}</td>
                     <td>{item.id}</td>
-                    <td>{item.loan_id.name}</td>
+                   
                     <td>&#8377; &nbsp;{item.amount}</td>
                     <td>{item.duration + " Years"}</td>
                     <td>
@@ -422,6 +431,7 @@ function Viewloan() {
                       )}
                     </td>
                     <td>{item.applyDate}</td>
+                    <td>{item.endDate}</td>
                     <td>{item.permanentAddress}</td>
                     <td>
                       <Button key={i} onClick={() => onButtonClick(item)}>
@@ -471,11 +481,11 @@ function Viewloan() {
                 <tr>
                   <th>#</th>
                   <th style={{ width: "20em" }}>Loan Id</th>
-                  <th style={{ width: "20em" }}>Loan Type</th>
                   <th style={{ width: "20em" }}>Loan Amount</th>
                   <th style={{ width: "20em" }}>Loan Tenure</th>
                   <th style={{ width: "20em" }}>Expected Monthly EMI</th>
                   <th style={{ width: "20em" }}>Apply Date</th>
+                  <th style={{ width: "20em" }}>Loan End Date</th>
                   <th style={{ width: "20em" }}>Designation</th>
                   <th style={{ width: "20em" }}>Total Experience</th>
                   <th style={{ width: "5em" }}>
@@ -488,7 +498,7 @@ function Viewloan() {
                   <tr key={i} style={{ fontWeight: "600", fontSize: "16px" }}>
                     <td>{i + 1}</td>
                     <td>{item.id}</td>
-                    <td>{item.loan_id.name}</td>
+          
                     <td>&#8377; &nbsp;{item.amount}</td>
                     <td>{item.duration + " Years"}</td>
                     <td>
@@ -500,6 +510,7 @@ function Viewloan() {
                       )}
                     </td>
                     <td>{item.applyDate}</td>
+                    <td>{item.endDate}</td>
                     <td>{item.designation}</td>
                     <td>{item.totalExperience}</td>
                     <td>
@@ -550,11 +561,12 @@ function Viewloan() {
                 <tr>
                   <th>#</th>
                   <th style={{ width: "20em" }}>Loan Id</th>
-                  <th style={{ width: "20em" }}>Loan Type</th>
+                 
                   <th style={{ width: "20em" }}>Loan Amount</th>
                   <th style={{ width: "20em" }}>Loan Tenure</th>
                   <th style={{ width: "20em" }}>Expected Monthly EMI</th>
                   <th style={{ width: "20em" }}>Apply Date</th>
+                  <th style={{ width: "20em" }}>Loan End Date</th>
                   <th style={{ width: "20em" }}>Course Name</th>
                   <th style={{ width: "20em" }}>Course Fee</th>
                   <th style={{ width: "5em" }}>
@@ -567,7 +579,6 @@ function Viewloan() {
                   <tr key={i} style={{ fontWeight: "600", fontSize: "16px" }}>
                     <td>{i + 1}</td>
                     <td>{item.id}</td>
-                    <td>{item.loan_id.name}</td>
                     <td>&#8377; &nbsp;{item.amount}</td>
                     <td>{item.duration + " Years"}</td>
                     <td>
@@ -579,6 +590,7 @@ function Viewloan() {
                       )}
                     </td>
                     <td>{item.applyDate}</td>
+                    <td>{item.endDate}</td>
                     <td>{item.courseName}</td>
                     <td>{item.courseFee}</td>
                     <td>

@@ -57,7 +57,7 @@ function Homeloan() {
 
   const annualsalary = (
     <>
-      Enter Annual Salary{" "}
+      Enter Total Annual Income{" "}
       <span className="text-danger">
         {" "}
         <b>*</b>{" "}
@@ -77,6 +77,7 @@ function Homeloan() {
 
   const [loanid, setLoanid] = useState({});
   const [maxAmt, setMaxAmt] = useState(10000000);
+  const [errmsg, setErrmsg] = useState("");
 
   useEffect(() => {
     var role_one = [
@@ -162,12 +163,9 @@ function Homeloan() {
       .catch((e) => {
         console.log(e.response.data);
         console.log(e.response.data.message);
+        setErrmsg(e.response.data.message);
         console.log(e);
-        if (e.response.data.message === "Maximum limit exceeded")
-          alert(
-            "Loan amount exceeds the maximum limit!! You are not eligible to apply for any more loans."
-          );
-        else alert("Failed to apply loan");
+       
       });
   };
 
@@ -221,6 +219,17 @@ function Homeloan() {
               }}
             >
               <Card.Body className="px-4">
+                    <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                 <Form autoComplete="off" onSubmit={handleSubmit(onFormSubmit)}>
                   <Row className="align-items-center pt-4">
                     <Form.Group className="mb-3" controlId="formBasicAmount">
@@ -303,7 +312,7 @@ function Homeloan() {
                         {errors.duration?.type === "max" && (
                           <p className="text-danger">
                             <strong className="text-danger">
-                              Loan cannot be issued for more than 15 years
+                              Loan cannot be issued for more than 30 years
                             </strong>
                           </p>
                         )}
@@ -317,7 +326,7 @@ function Homeloan() {
                             {...register("duration", {
                               required: true,
                               min: 4,
-                              max: 15,
+                              max: 30,
                             })}
                           />
                         </FloatingLabel>
@@ -363,7 +372,7 @@ function Homeloan() {
                             })}
                           />
                           <Form.Text className="text-muted">
-                            The entered salary is subject to verification from
+                            The entered income is subject to verification from
                             the authorities.
                           </Form.Text>
                         </FloatingLabel>

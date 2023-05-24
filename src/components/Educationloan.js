@@ -56,7 +56,7 @@ function Educationloan() {
 
   const annualsalary = (
     <>
-      Enter Annual Salary{" "}
+      Enter Total Annual Income{" "}
       <span className="text-danger">
         <b>*</b>
       </span>{" "}
@@ -64,6 +64,7 @@ function Educationloan() {
   );
   const [loanid, setLoanid] = useState({});
   const [maxAmt, setMaxAmt] = useState(10000000);
+  const [errmsg, setErrmsg] = useState("");
 
   useEffect(() => {
     var role_one = [
@@ -150,7 +151,7 @@ function Educationloan() {
       .catch((e) => {
         console.log(e.response.data);
         console.log(e);
-        alert(e.response.data.message);
+        setErrmsg(e.response.data.message);
       });
   };
 
@@ -204,6 +205,17 @@ function Educationloan() {
               }}
             >
               <Card.Body className="px-4">
+              <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                 <Form autoComplete="off" onSubmit={handleSubmit(onFormSubmit)}>
                   <Row className="align-items-center pt-4">
                     <Form.Group className="mb-3" controlId="formBasicAmount">
@@ -287,7 +299,7 @@ function Educationloan() {
                         {errors.duration?.type === "max" && (
                           <p className="text-danger">
                             <strong className="text-danger">
-                              Loan cannot be issued for more than 15 years
+                              Loan cannot be issued for more than 30 years
                             </strong>
                           </p>
                         )}
@@ -301,7 +313,7 @@ function Educationloan() {
                             {...register("duration", {
                               required: true,
                               min: 4,
-                              max: 15,
+                              max: 30,
                             })}
                           />
                         </FloatingLabel>
@@ -347,7 +359,7 @@ function Educationloan() {
                             })}
                           />
                           <Form.Text className="text-muted">
-                            The entered salary is subject to verification from
+                            The entered income is subject to verification from
                             the authorities.
                           </Form.Text>
                         </FloatingLabel>

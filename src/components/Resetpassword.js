@@ -16,6 +16,7 @@ export default function Resetpassword() {
   const [oldpassword, setOldpassword] = useState();
   const [password, setPassword] = useState();
   const [page, setPage] = useState(0);
+  const [errmsg, setErrmsg] = useState(""); 
   console.log(page);
 
   const currpasslabel = (
@@ -287,8 +288,9 @@ export default function Resetpassword() {
     setOldpassword(userObj["currpass"]);
 
     if (oldpassword === localStorage.password) {
+      setErrmsg("");
       setPage(1);
-    } else alert("Entered password does not match your current password");
+    } else setErrmsg("Entered password does not match your current password");
     /*  setPage(1);
       //console.log(userObj["username"]);
       alert("User Available");
@@ -303,9 +305,10 @@ export default function Resetpassword() {
     console.log(userObj["otp"]);
     if (userObj["otp"] === "111111") {
       // alert("OTP entered is correct. User is verified");
+      setErrmsg("");
       setPage(page + 1);
     } else {
-      alert("OTP entered is incorrect");
+      setErrmsg("OTP entered is incorrect");
     }
     console.log(page);
   };
@@ -334,11 +337,11 @@ export default function Resetpassword() {
         })
         .catch((e) => {
           console.log(e.response.data);
-          alert("Password could not be changed , some error occured");
+          setErrmsg("Password could not be changed , some error occured");
           setPage(0);
         });
     } else {
-      alert("Passwords don't match");
+      setErrmsg("Passwords don't match");
     }
 
     setPassword(userObj["password"]);
@@ -371,6 +374,17 @@ export default function Resetpassword() {
               >
                 <div class="col-lg-12 ">
                   <div class="card-body p-md-5 mx-md-4">
+                  <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                     <p className="text-secondary" style={{ fontSize: "15px" }}>
                       <span className="text-danger">
                         <b>*</b>

@@ -23,6 +23,7 @@ function FormContainer() {
   const [usernameValue, setUsername] = useState();
   const [password, setPassword] = useState();
   const [page, setPage] = useState(0);
+  const [errmsg, setErrmsg] = useState("");
   console.log(page);
 
   const userlabel = (
@@ -341,20 +342,22 @@ function FormContainer() {
         localStorage.username = userObj["username"];
         //window.location = "/";
         //alert("User is Verified!");
+        setErrmsg("");
         setPage(1);
       })
       .catch((e) => {
         console.log(e.response.data);
-        alert("User not available.");
+        setErrmsg("User not available.");
       });
   };
   const onVerifyOtp = (userObj) => {
     console.log(userObj["otp"]);
     if (userObj["otp"] === "111111") {
       //alert("OTP entered is correct.User is verified");
+      setErrmsg("");
       setPage(page + 1);
     } else {
-      alert("OTP entered is incorrect");
+      setErrmsg("OTP entered is incorrect");
     }
     console.log(page);
   };
@@ -383,11 +386,11 @@ function FormContainer() {
         })
         .catch((e) => {
           console.log(e.response.data);
-          alert("Password could not be changed , some error occured");
+          setErrmsg("Password could not be changed , some error occured");
           setPage(0);
         });
     } else {
-      alert("Passwords don't match");
+      setErrmsg("Passwords don't match");
     }
 
     setPassword(userObj["password"]);
@@ -423,6 +426,17 @@ function FormContainer() {
               >
                 <div class="col-lg-12">
                   <div class="card-body p-md-5 mx-md-4">
+                  <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                     <p className="text-secondary" style={{ fontSize: "15px" }}>
                       <span className="text-danger">
                         <b>*</b>

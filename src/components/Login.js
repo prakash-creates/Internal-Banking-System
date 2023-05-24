@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { FcInfo } from "react-icons/fc";
@@ -34,6 +34,8 @@ function Login() {
 
   /* const dispatch = useDispatch();
         const navigate = useNavigate();*/
+        
+        const [errmsg, setErrmsg] = useState(""); 
 
   const {
     register,
@@ -70,8 +72,8 @@ function Login() {
         //alert("Login Successful");
       })
       .catch((e) => {
-        console.log(e);
-        alert("Login Failed");
+        console.log(e.response.data);
+        setErrmsg(e.response.data.message);
       });
     console.log(localStorage.token);
     console.log(localStorage.demo);
@@ -122,6 +124,17 @@ function Login() {
                   </div>
                   <div class="col-lg-6 right-part-section">
                     <div class="card-body p-md-5 mx-md-4">
+                    <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                       <h3 style={{ marginBottom: "1.3rem" }}>Sign In</h3>
                       <span
                         className="text-secondary my-3"

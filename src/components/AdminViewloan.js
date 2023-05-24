@@ -386,11 +386,11 @@ function AdminViewloan() {
           </div>
           <Button
             id="reload"
-            className="reload md-3"
+            className="reload mb-3"
             type="button"
             onClick={refresh}
           >
-            Load Records
+            Update Records
           </Button>
           {status === 1 && (
             <div
@@ -438,7 +438,8 @@ function AdminViewloan() {
                     <th style={{ width: "20em" }}>Loan Tenure</th>
                     {/* <th style={{ width: "20em" }}>Expected Monthly EMI</th> */}
                     <th style={{ width: "20em" }}>Apply Date</th>
-                    <th style={{ width: "20em" }}>Property Address</th>
+                    <th style={{ width: "20em" }}>Loan End Date</th>
+                    
                     {/* <th style={{ width: "5em" }}>
                       <FaEdit size={20} />
                     </th> */}
@@ -451,7 +452,7 @@ function AdminViewloan() {
                       <td>{item.id}</td>
                       <td>{item.user_id.id}</td>
                       <td>{item.user_id.name}</td>
-                      <td>{item.loan_id.name}</td>
+                      
                       <td>&#8377; &nbsp;{item.amount}</td>
                       <td>{item.duration + " Years"}</td>
                       {/* <td>
@@ -463,7 +464,8 @@ function AdminViewloan() {
                         )}
                       </td> */}
                       <td>{item.applyDate}</td>
-                      <td>{item.permanentAddress}</td>
+                      <td>{item.endDate}</td>
+                      
                       {/* <td>
                         <Button key={i} onClick={() => onButtonClick(item)}>
                           <FaEdit size={20} />
@@ -522,8 +524,8 @@ function AdminViewloan() {
                     <th style={{ width: "20em" }}>Loan Tenure</th>
                     {/* <th style={{ width: "20em" }}>Expected Monthly EMI</th> */}
                     <th style={{ width: "20em" }}>Apply Date</th>
-                    <th style={{ width: "20em" }}>Designation</th>
-                    <th style={{ width: "20em" }}>Total Experience</th>
+                    <th style={{ width: "20em" }}>Loan End Date</th>
+                    
                     {/* <th style={{ width: "5em" }}>
                       <FaEdit size={20} />
                     </th> */}
@@ -536,7 +538,7 @@ function AdminViewloan() {
                       <td>{item.id}</td>
                       <td>{item.user_id.id}</td>
                       <td>{item.user_id.name}</td>
-                      <td>{item.loan_id.name}</td>
+                      
                       <td>&#8377; &nbsp;{item.amount}</td>
                       <td>{item.duration + " Years"}</td>
                       {/* <td>
@@ -548,8 +550,8 @@ function AdminViewloan() {
                         )}
                       </td> */}
                       <td>{item.applyDate}</td>
-                      <td>{item.designation}</td>
-                      <td>{item.totalExperience}</td>
+                      <td>{item.endDate}</td>
+                    
                       {/* <td>
                         <Button key={i} onClick={() => onButtonClick(item)}>
                           <FaEdit size={20} />
@@ -608,8 +610,8 @@ function AdminViewloan() {
                     <th style={{ width: "20em" }}>Loan Tenure</th>
                     {/* <th style={{ width: "20em" }}>Expected Monthly EMI</th> */}
                     <th style={{ width: "20em" }}>Apply Date</th>
-                    <th style={{ width: "20em" }}>Course Name</th>
-                    <th style={{ width: "20em" }}>Course Fee</th>
+                    <th style={{ width: "20em" }}>Loan End Date</th>
+                   
                     {/* <th style={{ width: "5em" }}>
                       <FaEdit size={20} />
                     </th> */}
@@ -622,7 +624,7 @@ function AdminViewloan() {
                       <td>{item.id}</td>
                       <td>{item.user_id.id}</td>
                       <td>{item.user_id.name}</td>
-                      <td>{item.loan_id.name}</td>
+                      
                       <td>&#8377; &nbsp;{item.amount}</td>
                       <td>{item.duration + " Years"}</td>
                       {/* <td>
@@ -634,8 +636,8 @@ function AdminViewloan() {
                         )}
                       </td> */}
                       <td>{item.applyDate}</td>
-                      <td>{item.courseName}</td>
-                      <td>{item.courseFee}</td>
+                      <td>{item.endDate}</td>
+                      
                       {/* <td>
                         <Button key={i} onClick={() => onButtonClick(item)}>
                           <FaEdit size={20} />
