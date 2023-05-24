@@ -16,6 +16,7 @@ export default function Resetpassword() {
   const [oldpassword, setOldpassword] = useState();
   const [password, setPassword] = useState();
   const [page, setPage] = useState(0);
+  const [errmsg, setErrmsg] = useState(""); 
   console.log(page);
 
   const currpasslabel = (
@@ -59,6 +60,34 @@ export default function Resetpassword() {
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onUserEntry)}>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.currpass?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please follow the pattern for password
+                  </strong>
+                </p>
+              )}
+              {errors.currpass?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your Password
+                  </strong>
+                </p>
+              )}
+              {errors.currpass?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password should be minimum 8 characters long
+                  </strong>
+                </p>
+              )}
+              {errors.currpass?.type === "maxLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password can be maximum 16 characters long
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3"
                 controlId="formPassword"
@@ -74,34 +103,6 @@ export default function Resetpassword() {
                     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   })}
                 />
-                {errors.currpass?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Please follow the pattern for password
-                    </strong>
-                  </p>
-                )}
-                {errors.currpass?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Please enter your Password
-                    </strong>
-                  </p>
-                )}
-                {errors.currpass?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password should be minimum 8 characters long
-                    </strong>
-                  </p>
-                )}
-                {errors.currpass?.type === "maxLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password can be maximum 16 characters long
-                    </strong>
-                  </p>
-                )}
               </FloatingLabel>
             </div>
 
@@ -122,21 +123,6 @@ export default function Resetpassword() {
         <>
           <Form autoComplete="off" onSubmit={handleSubmit(onVerifyOtp)}>
             <div class="form-outline mb-4 w-75 mx-auto">
-              <FloatingLabel
-                className="mb-3"
-                controlId="formotp"
-                label={otplabel}
-              >
-                <Form.Control
-                  type="number"
-                  placeholder="Enter the OTP"
-                  {...register("otp", {
-                    required: true,
-                    minLength: 6,
-                    maxLength: 6,
-                  })}
-                />
-              </FloatingLabel>
               {errors.otp?.type === "required" && (
                 <p className="text-danger">
                   <strong className="text-danger">
@@ -158,6 +144,21 @@ export default function Resetpassword() {
                   </strong>
                 </p>
               )}
+              <FloatingLabel
+                className="mb-3"
+                controlId="formotp"
+                label={otplabel}
+              >
+                <Form.Control
+                  type="number"
+                  placeholder="Enter the OTP"
+                  {...register("otp", {
+                    required: true,
+                    minLength: 6,
+                    maxLength: 6,
+                  })}
+                />
+              </FloatingLabel>
             </div>
             <Button
               //type="submit"
@@ -177,6 +178,34 @@ export default function Resetpassword() {
           <Form autoComplete="off" onSubmit={handleSubmit(onPasswordSubmit)}>
             <div className="mb-4"></div>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.password?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please follow the pattern for password
+                  </strong>
+                </p>
+              )}
+              {errors.password?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your Password
+                  </strong>
+                </p>
+              )}
+              {errors.password?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password should be minimum 8 characters long
+                  </strong>
+                </p>
+              )}
+              {errors.password?.type === "maxLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password can be maximum 16 characters long
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3 row"
                 controlId="formPassword"
@@ -192,37 +221,37 @@ export default function Resetpassword() {
                     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   })}
                 />
-                {errors.password?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Please follow the pattern for password
-                    </strong>
-                  </p>
-                )}
-                {errors.password?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Please enter your Password
-                    </strong>
-                  </p>
-                )}
-                {errors.password?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password should be minimum 8 characters long
-                    </strong>
-                  </p>
-                )}
-                {errors.password?.type === "maxLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password can be maximum 16 characters long
-                    </strong>
-                  </p>
-                )}
               </FloatingLabel>
             </div>
             <div class="form-outline mb-4 w-75 mx-auto">
+              {errors.cpassword?.type === "pattern" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please follow the pattern for password
+                  </strong>
+                </p>
+              )}
+              {errors.cpassword?.type === "required" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Please enter your Password
+                  </strong>
+                </p>
+              )}
+              {errors.cpassword?.type === "minLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password should be minimum 8 characters long
+                  </strong>
+                </p>
+              )}
+              {errors.cpassword?.type === "maxLength" && (
+                <p className="text-danger">
+                  <strong className="text-danger">
+                    Password can be maximum 16 characters long
+                  </strong>
+                </p>
+              )}
               <FloatingLabel
                 className="mb-3 row"
                 controlId="formCpassword"
@@ -238,34 +267,6 @@ export default function Resetpassword() {
                     pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                   })}
                 />
-                {errors.cpassword?.type === "pattern" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Please follow the pattern for password
-                    </strong>
-                  </p>
-                )}
-                {errors.cpassword?.type === "required" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Please enter your Password
-                    </strong>
-                  </p>
-                )}
-                {errors.cpassword?.type === "minLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password should be minimum 8 characters long
-                    </strong>
-                  </p>
-                )}
-                {errors.cpassword?.type === "maxLength" && (
-                  <p className="text-danger">
-                    <strong className="text-danger">
-                      Password can be maximum 16 characters long
-                    </strong>
-                  </p>
-                )}
               </FloatingLabel>
             </div>
             <Button
@@ -287,8 +288,9 @@ export default function Resetpassword() {
     setOldpassword(userObj["currpass"]);
 
     if (oldpassword === localStorage.password) {
+      setErrmsg("");
       setPage(1);
-    } else alert("Entered password does not match your current password");
+    } else setErrmsg("Entered password does not match your current password");
     /*  setPage(1);
       //console.log(userObj["username"]);
       alert("User Available");
@@ -302,10 +304,11 @@ export default function Resetpassword() {
   const onVerifyOtp = (userObj) => {
     console.log(userObj["otp"]);
     if (userObj["otp"] === "111111") {
-     // alert("OTP entered is correct. User is verified");
+      // alert("OTP entered is correct. User is verified");
+      setErrmsg("");
       setPage(page + 1);
     } else {
-      alert("OTP entered is incorrect");
+      setErrmsg("OTP entered is incorrect");
     }
     console.log(page);
   };
@@ -327,18 +330,18 @@ export default function Resetpassword() {
           //localStorage.token = `Bearer ${res.data.jwttoken}`;
           // setOldpassword(userObj["username"]);
           //localStorage.isLoggedIn = true;
-          
+
           //window.location = "/";
           alert("Password changed successfully");
           window.location = "/";
         })
         .catch((e) => {
           console.log(e.response.data);
-          alert("Password could not be changed , some error occured");
+          setErrmsg("Password could not be changed , some error occured");
           setPage(0);
         });
     } else {
-      alert("Passwords don't match");
+      setErrmsg("Passwords don't match");
     }
 
     setPassword(userObj["password"]);
@@ -371,6 +374,17 @@ export default function Resetpassword() {
               >
                 <div class="col-lg-12 ">
                   <div class="card-body p-md-5 mx-md-4">
+                  <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                     <p className="text-secondary" style={{ fontSize: "15px" }}>
                       <span className="text-danger">
                         <b>*</b>

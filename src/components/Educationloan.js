@@ -56,7 +56,7 @@ function Educationloan() {
 
   const annualsalary = (
     <>
-      Enter Annual Salary{" "}
+      Enter Total Annual Income{" "}
       <span className="text-danger">
         <b>*</b>
       </span>{" "}
@@ -64,32 +64,31 @@ function Educationloan() {
   );
   const [loanid, setLoanid] = useState({});
   const [maxAmt, setMaxAmt] = useState(10000000);
-
+  const [errmsg, setErrmsg] = useState("");
 
   useEffect(() => {
-      var role_one = ["Programmer Analyst Trainee", "Programmer Analyst", "Associate"];
-      var role_two = ["Sr. Manager ", "Sr. Associate", "Manager"];
-      var role_three = ["Associate Director", "Director"];
-      var role_four= ["Sr. Director", "Vice President"];
-  
-     
-      if (role_one.indexOf(localStorage.designation) !== -1)
-      {
-          setMaxAmt(2500000);
-      }
-      if (role_two.indexOf(localStorage.designation) !== -1)
-      {
-          setMaxAmt(5000000);
-      }
-      if (role_three.indexOf(localStorage.designation) !== -1)
-      {
-          setMaxAmt(7500000);
-      }
-      if (role_four.indexOf(localStorage.designation) !== -1)
-      {
-          setMaxAmt(10000000);
-      }
-  })
+    var role_one = [
+      "Programmer Analyst Trainee",
+      "Programmer Analyst",
+      "Associate",
+    ];
+    var role_two = ["Sr. Manager ", "Sr. Associate", "Manager"];
+    var role_three = ["Associate Director", "Director"];
+    var role_four = ["Sr. Director", "Vice President"];
+
+    if (role_one.indexOf(localStorage.designation) !== -1) {
+      setMaxAmt(2500000);
+    }
+    if (role_two.indexOf(localStorage.designation) !== -1) {
+      setMaxAmt(5000000);
+    }
+    if (role_three.indexOf(localStorage.designation) !== -1) {
+      setMaxAmt(7500000);
+    }
+    if (role_four.indexOf(localStorage.designation) !== -1) {
+      setMaxAmt(10000000);
+    }
+  });
 
   const {
     register,
@@ -100,13 +99,11 @@ function Educationloan() {
   const onFormSubmit = (userObj) => {
     console.log(localStorage.demo);
 
-    
     //Calculating Monthly EMI :
     console.log(
       "Monthly EMI : " +
         LoanEmi(rateOfInterest, userObj.amount, userObj.duration)
     );
-    
 
     userObj.loan_id = loanid;
     console.log(loanid);
@@ -119,7 +116,11 @@ function Educationloan() {
 
     //To use this when using backend APIs.
     //userObj.monthlyEmi = LoanEmi(userObj.loan_id.interest, userObj.amount, userObj.duration);
-    userObj.monthlyEmi = LoanEmi(rateOfInterest, userObj.amount, userObj.duration);
+    userObj.monthlyEmi = LoanEmi(
+      rateOfInterest,
+      userObj.amount,
+      userObj.duration
+    );
 
     console.log(userObj["amount"]);
     console.log(userObj["duration"]);
@@ -128,8 +129,6 @@ function Educationloan() {
 
     console.log(userObj);
     console.log(localStorage.token);
-
-    
 
     //To submit the loan applied by the user
     axios
@@ -152,7 +151,7 @@ function Educationloan() {
       .catch((e) => {
         console.log(e.response.data);
         console.log(e);
-        alert(e.response.data.message);
+        setErrmsg(e.response.data.message);
       });
   };
 
@@ -206,27 +205,26 @@ function Educationloan() {
               }}
             >
               <Card.Body className="px-4">
+              <div>
+                  { errmsg !== null ? (
+                      <>
+                      <h5 className="mx-auto mb-3 text-danger"> <strong className="text-danger">{errmsg}</strong></h5>
+                      </>
+                  ) : (
+                      <span></span>
+                    
+
+                  ) }
+                  </div>
                 <Form autoComplete="off" onSubmit={handleSubmit(onFormSubmit)}>
                   <Row className="align-items-center pt-4">
                     <Form.Group className="mb-3" controlId="formBasicAmount">
                       <Col md="10" className="mx-auto">
-                        <FloatingLabel
-                          controlId="formAmount"
-                          label={loanamtlabel}
-                        >
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter Amount"
-                            {...register("amount", {
-                              required: true,
-                              min: 100000,
-                              max: maxAmt,
-                            })}
-                          />
-                        </FloatingLabel>
                         {errors.amount?.type === "required" && (
                           <p className="text-danger">
-                            <strong className="text-danger">Please enter the loan amount</strong>
+                            <strong className="text-danger">
+                              Please enter the loan amount
+                            </strong>
                           </p>
                         )}
                         {errors.amount?.type === "min" && (
@@ -245,6 +243,20 @@ function Educationloan() {
                             </strong>
                           </p>
                         )}
+                        <FloatingLabel
+                          controlId="formAmount"
+                          label={loanamtlabel}
+                        >
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter Amount"
+                            {...register("amount", {
+                              required: true,
+                              min: 100000,
+                              max: maxAmt,
+                            })}
+                          />
+                        </FloatingLabel>
                       </Col>
                     </Form.Group>
                   </Row>
@@ -270,20 +282,6 @@ function Educationloan() {
                   <Row className="align-items-center ">
                     <Form.Group className="mb-3" controlId="formBasicTenure">
                       <Col md="10" className="mx-auto ">
-                        <FloatingLabel
-                          controlId="formTenure"
-                          label={loantenurelabel}
-                        >
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter Tenure"
-                            {...register("duration", {
-                              required: true,
-                              min: 4,
-                              max: 15,
-                            })}
-                          />
-                        </FloatingLabel>
                         {errors.duration?.type === "required" && (
                           <p className="text-danger">
                             <strong className="text-danger">
@@ -301,10 +299,24 @@ function Educationloan() {
                         {errors.duration?.type === "max" && (
                           <p className="text-danger">
                             <strong className="text-danger">
-                              Loan cannot be issued for more than 15 years
+                              Loan cannot be issued for more than 30 years
                             </strong>
                           </p>
                         )}
+                        <FloatingLabel
+                          controlId="formTenure"
+                          label={loantenurelabel}
+                        >
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter Tenure"
+                            {...register("duration", {
+                              required: true,
+                              min: 4,
+                              max: 30,
+                            })}
+                          />
+                        </FloatingLabel>
                       </Col>
                     </Form.Group>
                   </Row>
@@ -312,27 +324,11 @@ function Educationloan() {
                   <Row className="align-items-center ">
                     <Form.Group className="mb-3" controlId="formBasicSalary">
                       <Col md="10" className="mx-auto ">
-                        <FloatingLabel
-                          controlId="formAmount"
-                          label={annualsalary}
-                        >
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter Amount"
-                            {...register("annualIncome", {
-                              required: true,
-                              min: 250000,
-                              max: 4000000,
-                            })}
-                          />
-                          <Form.Text className="text-muted">
-                            The entered salary is subject to verification from
-                            the authorities.
-                          </Form.Text>
-                        </FloatingLabel>
                         {errors.annualIncome?.type === "required" && (
                           <p className="text-danger">
-                            <strong className="text-danger">Please enter your annual income</strong>
+                            <strong className="text-danger">
+                              Please enter your annual income
+                            </strong>
                           </p>
                         )}
                         {errors.annualIncome?.type === "min" && (
@@ -349,6 +345,24 @@ function Educationloan() {
                             </strong>
                           </p>
                         )}
+                        <FloatingLabel
+                          controlId="formAmount"
+                          label={annualsalary}
+                        >
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter Amount"
+                            {...register("annualIncome", {
+                              required: true,
+                              min: 250000,
+                              max: 4000000,
+                            })}
+                          />
+                          <Form.Text className="text-muted">
+                            The entered income is subject to verification from
+                            the authorities.
+                          </Form.Text>
+                        </FloatingLabel>
                       </Col>
                     </Form.Group>
                   </Row>
@@ -356,6 +370,13 @@ function Educationloan() {
                   <Row className="align-items-center">
                     <Form.Group className="mb-3" controlId="formBasicCourse">
                       <Col md="10" className="mx-auto">
+                        {errors.courseName?.type === "required" && (
+                          <p className="text-danger">
+                            <strong className="text-danger">
+                              Please select the academic course
+                            </strong>
+                          </p>
+                        )}
                         <FloatingLabel
                           controlId="formTenure"
                           label="Select the academic course for loan"
@@ -380,11 +401,6 @@ function Educationloan() {
                             </option>
                           </Form.Select>
                         </FloatingLabel>
-                        {errors.courseName?.type === "required" && (
-                          <p className="text-danger">
-                            <strong className="text-danger">Please select the academic course</strong>
-                          </p>
-                        )}
                       </Col>
                     </Form.Group>
                   </Row>
@@ -392,23 +408,11 @@ function Educationloan() {
                   <Row className="align-items-center ">
                     <Form.Group className="mb-3" controlId="formBasicCourseFee">
                       <Col md="10" className="mx-auto ">
-                        <FloatingLabel
-                          controlId="formAmount"
-                          label="Enter Course Fee"
-                        >
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter Amount"
-                            {...register("courseFee", {
-                              required: true,
-                              min: 50000,
-                              max: 5000000,
-                            })}
-                          />
-                        </FloatingLabel>
                         {errors.courseFee?.type === "required" && (
                           <p className="text-danger">
-                            <strong className="text-danger">Please enter the course fee</strong>
+                            <strong className="text-danger">
+                              Please enter the course fee
+                            </strong>
                           </p>
                         )}
                         {errors.courseFee?.type === "min" && (
@@ -425,6 +429,20 @@ function Educationloan() {
                             </strong>
                           </p>
                         )}
+                        <FloatingLabel
+                          controlId="formAmount"
+                          label="Enter Course Fee"
+                        >
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter Amount"
+                            {...register("courseFee", {
+                              required: true,
+                              min: 50000,
+                              max: 5000000,
+                            })}
+                          />
+                        </FloatingLabel>
                       </Col>
                     </Form.Group>
                   </Row>

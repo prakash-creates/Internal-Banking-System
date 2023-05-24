@@ -1,4 +1,3 @@
-// import Footer from "./Footer";
 import {
   Button,
   Form,
@@ -102,16 +101,14 @@ function AdminViewloan() {
 
   const [showOld, setshowOld] = useState(true);
 
-  const [tempp , setTempp] = useState(0);
-  
+  const [tempp, setTempp] = useState(0);
+
   const counter = useRef(0);
 
   const alive = useRef(false);
 
-  
-  const [dup , setDup] = useState(0);
+  const [dup, setDup] = useState(0);
 
-  
   const [data, setLoanData] = useState([]); //To change this for backend integrations.
 
   /* Dividing the loan records based on loan type */
@@ -206,7 +203,7 @@ function AdminViewloan() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8083/getAllLoanDetails/" , {
+      .get("http://localhost:8083/getAllLoanDetails/", {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-type": "Application/json",
@@ -246,7 +243,6 @@ function AdminViewloan() {
     setPersonalloanData(pers);
   }, [tempp]);
 
-  
   // useEffect(() => {
   //   if (counter.current < 10) {
   //     counter.current += 1;
@@ -255,29 +251,22 @@ function AdminViewloan() {
   //     return () => clearTimeout(timer);
   //   }
   // }, [data]);
- 
-  
+
   const refresh = () => {
-    
     console.log(data);
 
     var edu = [];
     var pers = [];
     var home = [];
-    data.forEach(element => {
-        console.log(element);
-        if(element.loan_id.id === 1)
-        {
-            pers.push(element);
-        }
-        else if(element.loan_id.id === 2)
-        {
-            edu.push(element);
-        }
-        else
-        {
-            home.push(element);
-        }
+    data.forEach((element) => {
+      console.log(element);
+      if (element.loan_id.id === 1) {
+        pers.push(element);
+      } else if (element.loan_id.id === 2) {
+        edu.push(element);
+      } else {
+        home.push(element);
+      }
     });
     console.log(edu);
     console.log(pers);
@@ -285,10 +274,9 @@ function AdminViewloan() {
     setEducationloanData(edu);
     setHomeloanData(home);
     setPersonalloanData(pers);
-    
-} 
+  };
   //To define the data to be shown in modal
-  
+
   const [modalData, setModalData] = useState({});
 
   const onButtonClick = (someObj) => {
@@ -332,8 +320,15 @@ function AdminViewloan() {
         style={{ paddingTop: "30px", paddingBottom: "3%" }}
       >
         <Menu />
-        <div className = "admin-viewloan-main" style={{ paddingBottom: "1em", backgroundColor: "#0c4978" , marginLeft: "2%" }}>
-         {/*  <h2
+        <div
+          className="admin-viewloan-main"
+          style={{
+            paddingBottom: "1em",
+            backgroundColor: "#0c4978",
+            marginLeft: "2%",
+          }}
+        >
+          {/*  <h2
             style={{
               paddingTop: "0.5em",
               paddingBottom: "0.5em",
@@ -388,7 +383,14 @@ function AdminViewloan() {
               </div>
             </Form>
           </div>
-          <Button id="reload" className="reload md-3" type="button" onClick={refresh}>Load Records</Button>
+          <Button
+            id="reload"
+            className="reload mb-3"
+            type="button"
+            onClick={refresh}
+          >
+            Update Records
+          </Button>
           {status === 1 && (
             <div
               className="table-responsive container"
@@ -430,12 +432,13 @@ function AdminViewloan() {
                     <th style={{ width: "20em" }}>Loan Id</th>
                     <th style={{ width: "20em" }}>User Id</th>
                     <th style={{ width: "20em" }}>User's Name</th>
-                    <th style={{ width: "20em" }}>Loan Type</th>
+                    {/* <th style={{ width: "20em" }}>Loan Type</th> */}
                     <th style={{ width: "20em" }}>Loan Amount</th>
                     <th style={{ width: "20em" }}>Loan Tenure</th>
-                    <th style={{ width: "20em" }}>Expected Monthly EMI</th>
+                    {/* <th style={{ width: "20em" }}>Expected Monthly EMI</th> */}
                     <th style={{ width: "20em" }}>Apply Date</th>
-                    <th style={{ width: "20em" }}>Property Address</th>
+                    <th style={{ width: "20em" }}>Loan End Date</th>
+                    
                     {/* <th style={{ width: "5em" }}>
                       <FaEdit size={20} />
                     </th> */}
@@ -448,19 +451,20 @@ function AdminViewloan() {
                       <td>{item.id}</td>
                       <td>{item.user_id.id}</td>
                       <td>{item.user_id.name}</td>
-                      <td>{item.loan_id.name}</td>
+                      
                       <td>&#8377; &nbsp;{item.amount}</td>
                       <td>{item.duration + " Years"}</td>
-                      <td>
+                      {/* <td>
                         &#8377; &nbsp;
                         {LoanEmi(
                           item.loan_id.interest,
                           item.amount,
                           item.duration
                         )}
-                      </td>
+                      </td> */}
                       <td>{item.applyDate}</td>
-                      <td>{item.permanentAddress}</td>
+                      <td>{item.endDate}</td>
+                      
                       {/* <td>
                         <Button key={i} onClick={() => onButtonClick(item)}>
                           <FaEdit size={20} />
@@ -514,13 +518,13 @@ function AdminViewloan() {
                     <th style={{ width: "20em" }}>Loan Id</th>
                     <th style={{ width: "20em" }}>User Id</th>
                     <th style={{ width: "20em" }}>User's Name</th>
-                    <th style={{ width: "20em" }}>Loan Type</th>
+                    {/* <th style={{ width: "20em" }}>Loan Type</th> */}
                     <th style={{ width: "20em" }}>Loan Amount</th>
                     <th style={{ width: "20em" }}>Loan Tenure</th>
-                    <th style={{ width: "20em" }}>Expected Monthly EMI</th>
+                    {/* <th style={{ width: "20em" }}>Expected Monthly EMI</th> */}
                     <th style={{ width: "20em" }}>Apply Date</th>
-                    <th style={{ width: "20em" }}>Designation</th>
-                    <th style={{ width: "20em" }}>Total Experience</th>
+                    <th style={{ width: "20em" }}>Loan End Date</th>
+                    
                     {/* <th style={{ width: "5em" }}>
                       <FaEdit size={20} />
                     </th> */}
@@ -533,20 +537,20 @@ function AdminViewloan() {
                       <td>{item.id}</td>
                       <td>{item.user_id.id}</td>
                       <td>{item.user_id.name}</td>
-                      <td>{item.loan_id.name}</td>
+                      
                       <td>&#8377; &nbsp;{item.amount}</td>
                       <td>{item.duration + " Years"}</td>
-                      <td>
+                      {/* <td>
                         &#8377; &nbsp;
                         {LoanEmi(
                           item.loan_id.interest,
                           item.amount,
                           item.duration
                         )}
-                      </td>
+                      </td> */}
                       <td>{item.applyDate}</td>
-                      <td>{item.designation}</td>
-                      <td>{item.totalExperience}</td>
+                      <td>{item.endDate}</td>
+                    
                       {/* <td>
                         <Button key={i} onClick={() => onButtonClick(item)}>
                           <FaEdit size={20} />
@@ -600,13 +604,13 @@ function AdminViewloan() {
                     <th style={{ width: "20em" }}>Loan Id</th>
                     <th style={{ width: "20em" }}>User Id</th>
                     <th style={{ width: "20em" }}>User's Name</th>
-                    <th style={{ width: "20em" }}>Loan Type</th>
+                    {/* <th style={{ width: "20em" }}>Loan Type</th> */}
                     <th style={{ width: "20em" }}>Loan Amount</th>
                     <th style={{ width: "20em" }}>Loan Tenure</th>
-                    <th style={{ width: "20em" }}>Expected Monthly EMI</th>
+                    {/* <th style={{ width: "20em" }}>Expected Monthly EMI</th> */}
                     <th style={{ width: "20em" }}>Apply Date</th>
-                    <th style={{ width: "20em" }}>Course Name</th>
-                    <th style={{ width: "20em" }}>Course Fee</th>
+                    <th style={{ width: "20em" }}>Loan End Date</th>
+                   
                     {/* <th style={{ width: "5em" }}>
                       <FaEdit size={20} />
                     </th> */}
@@ -619,20 +623,20 @@ function AdminViewloan() {
                       <td>{item.id}</td>
                       <td>{item.user_id.id}</td>
                       <td>{item.user_id.name}</td>
-                      <td>{item.loan_id.name}</td>
+                      
                       <td>&#8377; &nbsp;{item.amount}</td>
                       <td>{item.duration + " Years"}</td>
-                      <td>
+                      {/* <td>
                         &#8377; &nbsp;
                         {LoanEmi(
                           item.loan_id.interest,
                           item.amount,
                           item.duration
                         )}
-                      </td>
+                      </td> */}
                       <td>{item.applyDate}</td>
-                      <td>{item.courseName}</td>
-                      <td>{item.courseFee}</td>
+                      <td>{item.endDate}</td>
+                      
                       {/* <td>
                         <Button key={i} onClick={() => onButtonClick(item)}>
                           <FaEdit size={20} />
@@ -644,8 +648,6 @@ function AdminViewloan() {
               </Table>
             </div>
           )}
-
-  
         </div>
         {/* <Footer /> */}
         <>
@@ -720,21 +722,6 @@ function AdminViewloan() {
                     </Col>
                     <Col className="mx-auto mt-3" xs={12} md={8}>
                       <Form.Group className="mb-3" controlId="formBasicTenure">
-                        <FloatingLabel
-                          className="mb-3"
-                          controlId="formTenure"
-                          label="Tenure of loan (in years)"
-                        >
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter Tenure"
-                            {...register("duration", {
-                              required: true,
-                              min: 4,
-                              max: 15,
-                            })}
-                          />
-                        </FloatingLabel>
                         {errors.duration?.type === "required" && (
                           <p className="text-danger">
                             <strong className="text-danger">
@@ -756,6 +743,21 @@ function AdminViewloan() {
                             </strong>
                           </p>
                         )}
+                        <FloatingLabel
+                          className="mb-3"
+                          controlId="formTenure"
+                          label="Tenure of loan (in years)"
+                        >
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter Tenure"
+                            {...register("duration", {
+                              required: true,
+                              min: 4,
+                              max: 15,
+                            })}
+                          />
+                        </FloatingLabel>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -766,9 +768,7 @@ function AdminViewloan() {
                     </Form.Group>
                   </Row>
                   <Button id="save" variant="danger" type="submit">
-                    <span style={{ fontSize: "1.5em" }}>
-                      Save Modifications
-                    </span>
+                    <span style={{ fontSize: "1.5em" }}>Update</span>
                   </Button>
                 </Form>
               </Container>
